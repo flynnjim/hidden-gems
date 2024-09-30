@@ -1,7 +1,11 @@
-exports.convertTimestampToDate = ({ date, img_url, rating, ...otherProperties }) => {
-  const formatImg = JSON.stringify(img_url)
-  const formatRating = JSON.stringify(rating)
+exports.formatGemsData = ({ date, img_url, rating, ...otherProperties }) => {
+  const formatImg = `{${img_url.join(", ")}}`
+  const formatRating = `{${rating.join(", ")}}`
   if (!date) return { date: null, img_url: formatImg, rating: formatRating, ...otherProperties };
-  // console.log({date: new Date(date), ...otherProperties})
   return { date: new Date(date), img_url: formatImg, rating: formatRating, ...otherProperties };
 };
+
+exports.convertTimestampToDate = ({ date, ...otherProperties }) => {
+  if (!date) return { ...otherProperties };
+  return { date: new Date(date), ...otherProperties };
+}

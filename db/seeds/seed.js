@@ -1,6 +1,6 @@
 const format = require("pg-format");
 const db = require("../connection.js");
-const { convertTimestampToDate } = require("./utils.js");
+const { formatGemsData, convertTimestampToDate } = require("./utils.js");
 
 const seed = ({ gemsData, usersData, commentsData }) => {
   return db
@@ -31,8 +31,8 @@ const seed = ({ gemsData, usersData, commentsData }) => {
             description VARCHAR NOT NULL,
             category VARCHAR NOT NULL,
             img_url VARCHAR[] DEFAULT array['https://www.google.com/url?sa=i&url=https%3A%2F%2Ficonduck.com%2Ficons%2F21505%2Fgem&psig=AOvVaw15W1rHY7dazED2o5R0nMY0&ust=1727777239135000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCNiL7_a16ogDFQAAAAAdAAAAABAE']::varchar[],
-            latitude INT,
-            longitude INT,
+            latitude FLOAT,
+            longitude FLOAT,
             address VARCHAR NOT NULL,
             date TIMESTAMP DEFAULT NULL,
             rating INT[] DEFAULT array[]::int[],
@@ -67,8 +67,7 @@ const seed = ({ gemsData, usersData, commentsData }) => {
       return db.query(insertUsersQueryStr);
     })
     .then(() => {
-      const formattedGemsData = gemsData.map(convertTimestampToDate);
-      // console.log(formattedGemsData)
+      const formattedGemsData = gemsData.map(formatGemsData);
       const insertGemsQueryStr = format(
         "INSERT INTO gems (title, description, category, img_url, latitude, longitude, address, date, rating, type, user_id) VALUES %L RETURNING *;",
         formattedGemsData.map(
@@ -99,22 +98,21 @@ const seed = ({ gemsData, usersData, commentsData }) => {
           ]
         )
       );
-      console.log(insertGemsQueryStr)
       return db.query(insertGemsQueryStr);
     })
-    // .then(() => {
-    //   const formattedCommentsData = commentsData.map(convertTimestampToDate);
-    //   const insertCommentsDataStr = format(
-    //     "INSERT INTO comments (username, body, gem_id, date) VALUES %L;",
-    //     formattedCommentsData.map(({ username, body, gem_id, date }) => [
-    //       username,
-    //       body,
-    //       gem_id,
-    //       date
-    //     ])
-    //   );
-    //   return db.query(insertCommentsDataStr);
-    // });
+    .then(() => {
+      const formattedCommentsData = commentsData.map(convertTimestampToDate);
+      const insertCommentsDataStr = format(
+        "INSERT INTO comments (username, body, gem_id, date) VALUES %L;",
+        formattedCommentsData.map(({ username, body, gem_id, date }) => [
+          username,
+          body,
+          gem_id,
+          date
+        ])
+      );
+      return db.query(insertCommentsDataStr);
+    });
 };
 
 module.exports = seed;

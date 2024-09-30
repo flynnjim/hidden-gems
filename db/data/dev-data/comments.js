@@ -74,7 +74,7 @@ module.exports = [
   {
     username: "johndoe123",
     body: "Twilight Books & Brew is a perfect spot for book lovers! I spent hours there with a great book and a cup of coffee.",
-    gem_id: 13,
+    gem_id: 12,
     date: 1727808000,
   },
   {
@@ -152,7 +152,7 @@ module.exports = [
   {
     username: "emilyd202",
     body: "Twilight Books & Brew is such a cozy place! I enjoy their coffee and the atmosphere is perfect for reading.",
-    gem_id: 13,
+    gem_id: 12,
     date: 1727806200,
   },
   {

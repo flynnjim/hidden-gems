@@ -12,7 +12,7 @@ module.exports = [
     address: "Piccadilly Gardens, Manchester M1 1RN, United Kingdom",
     date: 1697378400000,
     type: "event",
-    rating: [],
+    rating: [5],
     user_id: 1,
   },
   {
@@ -28,7 +28,7 @@ module.exports = [
     address: "Piccadilly Gardens, Manchester M1 1RN, United Kingdom",
     date: 1696243200000,
     type: "event",
-    rating: [],
+    rating: [4],
     user_id: 2,
   },
   {
@@ -44,7 +44,7 @@ module.exports = [
     address: "Albert Square, Manchester M2 5DB, United Kingdom",
     date: 1696070400000,
     type: "event",
-    rating: [],
+    rating: [3],
     user_id: 3,
   },
   {
@@ -60,7 +60,7 @@ module.exports = [
     address: "Fletcher Moss Park, Didsbury, Manchester M20 2SW, United Kingdom",
     date: 1696521600000,
     type: "event",
-    rating: [],
+    rating: [2],
     user_id: 4,
   },
   {
@@ -76,7 +76,7 @@ module.exports = [
     address: "The Ivy, Hardman St, Manchester M3 3EB, United Kingdom",
     date: 1697131200000,
     type: "event",
-    rating: [],
+    rating: [1],
     user_id: 5,
   },
   {
@@ -92,7 +92,7 @@ module.exports = [
     address: "Northern Quarter, Manchester M4 1BD, United Kingdom",
     date: 1696006200000,
     type: "event",
-    rating: [],
+    rating: [5, 4],
     user_id: 6,
   },
   {
@@ -109,7 +109,7 @@ module.exports = [
       "Cookery School, St Peter's Square, Manchester M2 3AE, United Kingdom",
     date: 1696779600000,
     type: "event",
-    rating: [],
+    rating: [3, 2],
     user_id: 7,
   },
   {
@@ -125,7 +125,7 @@ module.exports = [
     address: "West Didsbury, Manchester M20 2BA, United Kingdom",
     date: null,
     type: "place",
-    rating: [],
+    rating: [1, 5],
     user_id: 8,
   },
   {
@@ -142,7 +142,7 @@ module.exports = [
       "Hardman Square, Spinningfields, Manchester M3 3EB, United Kingdom",
     date: null,
     type: "place",
-    rating: [],
+    rating: [4, 3],
     user_id: 9,
   },
   {
@@ -158,7 +158,7 @@ module.exports = [
     address: "Royal Exchange, Manchester M2 7EA, United Kingdom",
     date: null,
     type: "place",
-    rating: [],
+    rating: [2, 1],
     user_id: 1,
   },
   {
@@ -174,7 +174,7 @@ module.exports = [
     address: "Smithfield Market, Manchester M4 1BN, United Kingdom",
     date: null,
     type: "place",
-    rating: [],
+    rating: [5, 4, 3],
     user_id: 2,
   },
   {
@@ -190,7 +190,7 @@ module.exports = [
     address: "Lymm, Manchester WA13 0HS, United Kingdom",
     date: null,
     type: "place",
-    rating: [],
+    rating: [2, 1, 5],
     user_id: 3,
   },
 ];
