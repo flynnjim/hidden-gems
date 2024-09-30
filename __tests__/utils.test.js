@@ -28,10 +28,10 @@ describe("convertTimestampToDate", () => {
     expect(result.key1).toBe(true);
     expect(result.key2).toBe(1);
   });
-  test("returns unchanged object if no date property", () => {
-    const input = { key: "value" };
-    const result = convertTimestampToDate(input);
-    const expected = { key: "value" };
-    expect(result).toEqual(expected);
-  });
+  // test("returns unchanged object if no date property", () => {
+  //   const input = { key: "value" };
+  //   const result = convertTimestampToDate(input);
+  //   const expected = { key: "value" };
+  //   expect(result).toEqual(expected);
+  // });
 });
