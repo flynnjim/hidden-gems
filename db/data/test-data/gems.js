@@ -7,10 +7,8 @@ module.exports = [
     img_url: [
       "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/gems%2Fart-in-the-park.jpg?alt=media&token=4d8751d5-78d2-48c8-8e76-7880f1aada24",
     ],
-    location: {
-      latitude: 53.4808,
-      longitude: -2.2426,
-    },
+    latitude: 53.4808,
+    longitude: -2.2426,
     address: "1 Piccadilly, Manchester M1 1RG, United Kingdom",
     date: "2024-10-02T11:00:00",
     user_id: 1,
@@ -25,10 +23,8 @@ module.exports = [
     img_url: [
       "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/gems%2Fforaging-adventure.webp?alt=media&token=5799c51d-0062-457d-9be9-26e2789b76b2",
     ],
-    location: {
-      latitude: 53.40998,
-      longitude: -2.231808,
-    },
+    latitude: 53.40998,
+    longitude: -2.231808,
     address: "18 Stenner Ln, Didsbury, Manchester M20 2RQ",
     date: "2024-10-05T08:00:00",
     user_id: 1,
@@ -43,10 +39,8 @@ module.exports = [
     img_url: [
       "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/gems%2Fsecret-garden.jpg?alt=media&token=bc3795cc-24e5-46fb-bddd-21a1c1c9bf1f",
     ],
-    location: {
-      latitude: 53.4642,
-      longitude: -2.2365,
-    },
+    latitude: 53.4642,
+    longitude: -2.2365,
     address: "12a Levenshulme Rd, Manchester M19 2BA, United Kingdom",
     user_id: 3,
     rating: [],
@@ -60,10 +54,8 @@ module.exports = [
     img_url: [
       "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/gems%2Frooftop-bar.jpg?alt=media&token=85c35ee4-006c-4f20-922f-e4e84b205731",
     ],
-    location: {
-      latitude: 53.4783,
-      longitude: -2.248,
-    },
+    latitude: 53.4783,
+    longitude: -2.248,
     address:
       "1 Hardman Square, Spinningfields, Manchester M3 3EB, United Kingdom",
     user_id: 4,
