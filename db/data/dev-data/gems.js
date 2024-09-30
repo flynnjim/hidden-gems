@@ -7,13 +7,13 @@ module.exports = [
     img_url: [
       "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/gems%2Fculture-festival.jpg?alt=media&token=3ccefa14-e774-4f77-b39b-ca08e15e23dd",
     ],
-    location: {
-      latitude: 53.4808,
-      longitude: -2.2426,
-    },
+    latitude: 53.4808,
+    longitude: -2.2426,
     address: "Piccadilly Gardens, Manchester M1 1RN, United Kingdom",
-    date: 1697378400000, 
+    date: 1697378400000,
     type: "event",
+    rating: [],
+    user_id: 1,
   },
   {
     title: "Art in the Park",
@@ -23,13 +23,13 @@ module.exports = [
     img_url: [
       "https://console.firebase.google.com/project/fir-project-28217/storage/fir-project-28217.appspot.com/files/~2Fgems#:~:text=Name-,art%2Din%2Dthe%2Dpark.jpg,-Size",
     ],
-    location: {
-      latitude: 53.4808,
-      longitude: -2.2426,
-    },
+    latitude: 53.4808,
+    longitude: -2.2426,
     address: "Piccadilly Gardens, Manchester M1 1RN, United Kingdom",
-    date: 1696243200000, 
+    date: 1696243200000,
     type: "event",
+    rating: [],
+    user_id: 2,
   },
   {
     title: "Street Food Festival",
@@ -39,13 +39,13 @@ module.exports = [
     img_url: [
       "https://console.firebase.google.com/project/fir-project-28217/storage/fir-project-28217.appspot.com/files/~2Fgems#:~:text=Name-,street%2Dfood.jpeg,-Size",
     ],
-    location: {
-      latitude: 51.5074,
-      longitude: -0.1278,
-    },
+    latitude: 53.479641,
+    longitude: -2.245510,
     address: "Albert Square, Manchester M2 5DB, United Kingdom",
-    date: 1696070400000, 
+    date: 1696070400000,
     type: "event",
+    rating: [],
+    user_id: 3,
   },
   {
     title: "Foraging Adventure",
@@ -55,13 +55,13 @@ module.exports = [
     img_url: [
       "https://console.firebase.google.com/project/fir-project-28217/storage/fir-project-28217.appspot.com/files/~2Fgems#:~:text=Name-,foraging%2Dadventure.webp,-Size",
     ],
-    location: {
-      latitude: 53.4693,
-      longitude: -2.2672,
-    },
+    latitude: 53.4693,
+    longitude: -2.2672,
     address: "Fletcher Moss Park, Didsbury, Manchester M20 2SW, United Kingdom",
-    date: 1696521600000, 
+    date: 1696521600000,
     type: "event",
+    rating: [],
+    user_id: 4,
   },
   {
     title: "Gourmet Tasting Night",
@@ -71,13 +71,13 @@ module.exports = [
     img_url: [
       "https://console.firebase.google.com/project/fir-project-28217/storage/fir-project-28217.appspot.com/files/~2Fgems#:~:text=Name-,gormet%2Dtasting.jpg,-Size",
     ],
-    location: {
-      latitude: 53.4783,
-      longitude: -2.244,
-    },
+    latitude: 53.4783,
+    longitude: -2.244,
     address: "The Ivy, Hardman St, Manchester M3 3EB, United Kingdom",
-    date: 1697131200000, 
+    date: 1697131200000,
     type: "event",
+    rating: [],
+    user_id: 5,
   },
   {
     title: "City Lights Photography Tour",
@@ -87,13 +87,13 @@ module.exports = [
     img_url: [
       "https://console.firebase.google.com/project/fir-project-28217/storage/fir-project-28217.appspot.com/files/~2Fgems#:~:text=Name-,city%2Dlights.jpg,-Size",
     ],
-    location: {
-      latitude: 53.4808,
-      longitude: -2.2426,
-    },
+    latitude: 53.4808,
+    longitude: -2.2426,
     address: "Northern Quarter, Manchester M4 1BD, United Kingdom",
-    date: 1696006200000, 
+    date: 1696006200000,
     type: "event",
+    rating: [],
+    user_id: 6,
   },
   {
     title: "World Cuisine Cooking Class",
@@ -103,14 +103,14 @@ module.exports = [
     img_url: [
       "https://console.firebase.google.com/project/fir-project-28217/storage/fir-project-28217.appspot.com/files/~2Fgems#:~:text=Name-,world%2Dcuisine.webp,-Size",
     ],
-    location: {
-      latitude: 53.4832,
-      longitude: -2.2241,
-    },
+    latitude: 53.4832,
+    longitude: -2.2241,
     address:
       "Cookery School, St Peter's Square, Manchester M2 3AE, United Kingdom",
-    date: 1696779600000, 
+    date: 1696779600000,
     type: "event",
+    rating: [],
+    user_id: 7,
   },
   {
     title: "The Secret Garden Cafe",
@@ -120,13 +120,13 @@ module.exports = [
     img_url: [
       "https://console.firebase.google.com/project/fir-project-28217/storage/fir-project-28217.appspot.com/files/~2Fgems#:~:text=Name-,secret%2Dgarden.jpg,-Size",
     ],
-    location: {
-      latitude: 53.4654,
-      longitude: -2.2367,
-    },
+    latitude: 53.4654,
+    longitude: -2.2367,
     address: "West Didsbury, Manchester M20 2BA, United Kingdom",
-    date: null, 
+    date: null,
     type: "place",
+    rating: [],
+    user_id: 8,
   },
   {
     title: "Moonlit Rooftop Bar",
@@ -136,14 +136,14 @@ module.exports = [
     img_url: [
       "https://console.firebase.google.com/project/fir-project-28217/storage/fir-project-28217.appspot.com/files/~2Fgems#:~:text=Name-,rooftop%2Dbar.jpg,-Size",
     ],
-    location: {
-      latitude: 53.4783,
-      longitude: -2.244,
-    },
+    latitude: 53.4783,
+    longitude: -2.244,
     address:
       "Hardman Square, Spinningfields, Manchester M3 3EB, United Kingdom",
-    date: null, 
+    date: null,
     type: "place",
+    rating: [],
+    user_id: 9,
   },
   {
     title: "The Hidden Lantern",
@@ -153,13 +153,13 @@ module.exports = [
     img_url: [
       "https://console.firebase.google.com/project/fir-project-28217/storage/fir-project-28217.appspot.com/files/~2Fgems#:~:text=Name-,hidden%2Dlantern.jpeg,-Size",
     ],
-    location: {
-      latitude: 53.4811,
-      longitude: -2.2433,
-    },
+    latitude: 53.4811,
+    longitude: -2.2433,
     address: "Royal Exchange, Manchester M2 7EA, United Kingdom",
-    date: null, 
+    date: null,
     type: "place",
+    rating: [],
+    user_id: 1,
   },
   {
     title: "Vinyl Dreams Record Shop",
@@ -169,13 +169,13 @@ module.exports = [
     img_url: [
       "https://console.firebase.google.com/project/fir-project-28217/storage/fir-project-28217.appspot.com/files/~2Fgems#:~:text=Name-,vinyl%2Ddreams.jpg,-Size",
     ],
-    location: {
-      latitude: 53.4712,
-      longitude: -2.248,
-    },
+    latitude: 53.4712,
+    longitude: -2.248,
     address: "Smithfield Market, Manchester M4 1BN, United Kingdom",
-    date: null, 
+    date: null,
     type: "place",
+    rating: [],
+    user_id: 2,
   },
   {
     title: "Rustic Roots Farm Market",
@@ -185,12 +185,12 @@ module.exports = [
     img_url: [
       "https://console.firebase.google.com/project/fir-project-28217/storage/fir-project-28217.appspot.com/files/~2Fgems#:~:text=Name-,rustic%2Droots.jpg,-Size",
     ],
-    location: {
-      latitude: 53.4536,
-      longitude: -2.2684,
-    },
+    latitude: 53.4536,
+    longitude: -2.2684,
     address: "Lymm, Manchester WA13 0HS, United Kingdom",
-    date: null, 
+    date: null,
     type: "place",
+    rating: [],
+    user_id: 3,
   },
 ];
