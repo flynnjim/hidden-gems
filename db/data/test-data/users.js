@@ -1,4 +1,4 @@
-const users = [
+module.exports = [
   {
     name: "John Doe",
     username: "johndoe123",

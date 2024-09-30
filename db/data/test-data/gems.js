@@ -1,4 +1,4 @@
-const gems = [
+module.exports = [
   {
     title: "Art in the Park",
     description:

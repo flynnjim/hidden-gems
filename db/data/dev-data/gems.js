@@ -1,4 +1,4 @@
-const gems = [
+module.exports = [
   {
     title: "Cultural Heritage Festival",
     description:

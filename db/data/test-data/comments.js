@@ -1,4 +1,4 @@
-const comments = [
+module.exports = [
   {
     username: "johndoe123",
     body: "I had such a wonderful time at Art in the Park! The creativity all around was inspiring, and the atmosphere was vibrant and welcoming.",
