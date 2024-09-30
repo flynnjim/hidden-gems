@@ -14,6 +14,7 @@ const gems = [
     address: "1 Piccadilly, Manchester M1 1RG, United Kingdom",
     date: "2024-10-02T11:00:00",
     user_id: 1,
+    rating: [],
     type: "event",
   },
   {
@@ -31,6 +32,7 @@ const gems = [
     address: "18 Stenner Ln, Didsbury, Manchester M20 2RQ",
     date: "2024-10-05T08:00:00",
     user_id: 1,
+    rating: [],
     type: "event",
   },
   {
@@ -47,6 +49,7 @@ const gems = [
     },
     address: "12a Levenshulme Rd, Manchester M19 2BA, United Kingdom",
     user_id: 3,
+    rating: [],
     type: "place",
   },
   {
@@ -64,6 +67,7 @@ const gems = [
     address:
       "1 Hardman Square, Spinningfields, Manchester M3 3EB, United Kingdom",
     user_id: 4,
+    rating: [],
     type: "place",
   },
 ];
