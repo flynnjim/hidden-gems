@@ -12,7 +12,7 @@ module.exports = [
     address: "1 Piccadilly, Manchester M1 1RG, United Kingdom",
     date: 1696245600000,
     user_id: 1,
-    rating: [],
+    rating: [1],
     type: "event",
   },
   {
@@ -28,7 +28,7 @@ module.exports = [
     address: "18 Stenner Ln, Didsbury, Manchester M20 2RQ",
     date: 1696492800000,
     user_id: 1,
-    rating: [],
+    rating: [1],
     type: "event",
   },
   {
@@ -44,7 +44,7 @@ module.exports = [
     address: "12a Levenshulme Rd, Manchester M19 2BA, United Kingdom",
     date: null,
     user_id: 3,
-    rating: [],
+    rating: [1],
     type: "place",
   },
   {
@@ -61,7 +61,7 @@ module.exports = [
       "1 Hardman Square, Spinningfields, Manchester M3 3EB, United Kingdom",
     date: null,
     user_id: 4,
-    rating: [],
+    rating: [10],
     type: "place",
   },
 ];
