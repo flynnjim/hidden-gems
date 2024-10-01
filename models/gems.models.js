@@ -4,7 +4,7 @@ exports.selectAllGems = (sort_by = "date", order = "desc", category, date) => {
 
   const validSortByQueries = ["date", "rating"];
 
-  const validOrders = ["desc", "asc", "DESC", "ASC"];
+  const validOrders = ["desc", "asc", "DESC", "ASC"]
 
   const validFilters = ["date", "category", "type"]
 
@@ -40,7 +40,6 @@ exports.selectAllGems = (sort_by = "date", order = "desc", category, date) => {
   
   return db.query(sqlString, queryFilter)
   .then(({ rows }) => {
-    // console.log(rows)
     return rows;
   });
 };

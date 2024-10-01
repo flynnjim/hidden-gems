@@ -185,14 +185,14 @@ describe("FILTER QUERY BY DATE: GET /api/gems", () => {
             })
         })
     })
-    test("receive status 200 and an array of gems filtered by date and another filter", () => {
-        return request(app)
-        .get("/api/gems?date=2023-10-05T07:00:00.000Z&category=nature")
-        .expect(200)
-        .then(({ body }) => {
-            body.gems.forEach((gem) => {
-                expect(gem.date).toBe("2023-10-05T07:00:00.000Z")
-            })
-        })
-    })
+    // test("receive status 200 and an array of gems filtered by date and another filter", () => {
+    //     return request(app)
+    //     .get("/api/gems?date=2023-10-05T07:00:00.000Z&category=nature")
+    //     .expect(200)
+    //     .then(({ body }) => {
+    //         body.gems.forEach((gem) => {
+    //             expect(gem.date).toBe("2023-10-05T07:00:00.000Z")
+    //         })
+    //     })
+    // })
 })

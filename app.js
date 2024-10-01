@@ -11,14 +11,18 @@ app.get("/api/gems/:gem_id", getGemByID);
 
 // Error Handling
 
-app.use((err, request, response, next) => {
+app.use((err, req, res, next) => {
   if (err.status && err.msg) {
-    response.status(err.status).send({ msg: err.msg });
+    res.status(err.status).send({ msg: err.msg });
   } else if (err.code === "22P02") {
-    response.status(400).send({ msg: "Bad Request" });
+    res.status(400).send({ msg: "Bad Request" });
   } else {
     next(err);
   }
+})
+
+app.all("*", (req, res, next) => {
+    res.status(404).send({msg: "Requested Endpoint Not Found!"})
 })
 
 module.exports = app;
