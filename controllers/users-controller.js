@@ -1,12 +1,23 @@
-const { fetchAllUsers } = require("../models/users-model");
+const { fetchAllUsers, fetchUserById } = require("../models/users-model");
 
 exports.getAllUsers = (req, res, next) => {
-    fetchAllUsers()
+  const { username } = req.body;
+  fetchAllUsers(username)
     .then((usersData) => {
-        res.status(200).send(usersData)
+      res.status(200).send(usersData);
     })
     .catch((err) => {
-        console.log(err)
-        next(err)
+      next(err);
+    });
+};
+
+exports.getUserById = (req, res, next) => {
+  const { user_id } = req.params;
+  fetchUserById(user_id)
+    .then((userData) => {
+      res.status(200).send(userData);
     })
-}
+    .catch((err) => {
+      next(err);
+    });
+};
