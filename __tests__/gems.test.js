@@ -79,7 +79,7 @@ describe("GET /api/gems/:gem_id", () => {
   });
 });
 
-describe("Sorting features GET /api/gems", () => {
+describe("SORT QUERY GET /api/gems", () => {
   test("receive status 200 and an array of gem objects sorted by date", () => {
     return request(app)
       .get("/api/gems?sort_by=date")
@@ -104,7 +104,6 @@ describe("Sorting features GET /api/gems", () => {
         expect(body.gems).toBeSortedBy("date", { descending: false });
       });
   });
-
   test("receive status 200 and an array of gem objects sorted by date in desc order", () => {
     return request(app)
       .get("/api/gems?sort_by=date&order=desc")
@@ -113,4 +112,87 @@ describe("Sorting features GET /api/gems", () => {
         expect(body.gems).toBeSortedBy("date", { descending: true });
       });
   });
+  test("receive status 400 and an error message when given an invalid order by query", () => {
+    return request(app)
+      .get("/api/gems?sort_by=date&order=hi")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Bad Request");
+      });
+  });
 });
+describe("FILTER BY CATEGORY: GET /api/gems", () => {
+    test("receive status 200 and an array of gem objects filtered by specified category", () => {
+        return request(app)
+        .get("/api/gems?category=nature")
+        .expect(200)
+        .then(({ body }) => {
+            expect(body.gems.length).toBe(1)
+            body.gems.forEach((gem) => {
+                expect(gem.category).toBe("nature")
+            })
+        })
+    })
+    test("receive status 200 and an array of gem objects filtered by specified category", () => {
+        return request(app)
+        .get("/api/gems?category=culture&sort_by=date")
+        .expect(200)
+        .then(({ body }) => {
+            expect(body.gems.length).toBe(2)
+            expect(body.gems).toBeSortedBy("date", { descending: true })
+            body.gems.forEach((gem) => {
+                expect(gem.category).toBe("culture")
+            })
+        })
+    })
+    test("receive status 200 and an array of gem objects filtered by specified category", () => {
+        return request(app)
+        .get("/api/gems?category=culture&sort_by=date&order=asc")
+        .expect(200)
+        .then(({ body }) => {
+            expect(body.gems.length).toBe(2)
+            expect(body.gems).toBeSortedBy("date", { descending: false })
+            body.gems.forEach((gem) => {
+                expect(gem.category).toBe("culture")
+            })
+        })
+    })
+    test("receive status 200 and an array of all gem objects where no filter category has been specified", () => {
+        return request(app)
+        .get("/api/gems?category=")
+        .expect(200)
+        .then(({ body }) => {
+            expect(body.gems.length).toBe(4)
+        })
+    })
+    test("receive status 400 and an error message when given a valid category data type which does not exist", () => {
+        return request(app)
+        .get("/api/gems?category=categoryDoesNotExist")
+        .expect(404)
+        .then(({ body }) => {
+            expect(body.msg).toBe("Not Found")
+        })
+    })
+})
+describe("FILTER QUERY BY DATE: GET /api/gems", () => {
+    test("receive status 200 and an array of gems filtered by a specified date", () => {
+        return request(app)
+        .get("/api/gems?date=2023-10-05T07:00:00.000Z")
+        .expect(200)
+        .then(({ body }) => {
+            body.gems.forEach((gem) => {
+                expect(gem.date).toBe("2023-10-05T07:00:00.000Z")
+            })
+        })
+    })
+    test("receive status 200 and an array of gems filtered by date and another filter", () => {
+        return request(app)
+        .get("/api/gems?date=2023-10-05T07:00:00.000Z&category=nature")
+        .expect(200)
+        .then(({ body }) => {
+            body.gems.forEach((gem) => {
+                expect(gem.date).toBe("2023-10-05T07:00:00.000Z")
+            })
+        })
+    })
+})

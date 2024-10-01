@@ -19,6 +19,6 @@ app.use((err, request, response, next) => {
   } else {
     next(err);
   }
-});
+})
 
 module.exports = app;
