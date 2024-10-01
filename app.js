@@ -2,27 +2,53 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const { getGems, getGemByID } = require("./controllers/gems.controllers");
+const {
+  getAllUsers,
+  getUserById,
+  postUser,
+  patchUser,
+} = require("./controllers/users-controller");
+const {
+  handlePSQLErrors,
+  handleCustomErrors,
+  handleServerErrors,
+} = require("./errors/errors");
 
-app.use(cors());
 app.use(express.json());
+app.use(cors());
+
+const { getAllComments } = require("./controllers/get-all-comments.controller");
+const { getGemComments } = require("./controllers/get-gem-comments.controller");
+const { postComment } = require("./controllers/post-new-comment.controller");
+const { deleteComment } = require('./controllers/delete-comment.controller')
 
 app.get("/api/gems", getGems);
+
 app.get("/api/gems/:gem_id", getGemByID);
 
-// Error Handling
+app.get("/api/comments", getAllComments);
 
-app.use((err, req, res, next) => {
-  if (err.status && err.msg) {
-    res.status(err.status).send({ msg: err.msg });
-  } else if (err.code === "22P02") {
-    res.status(400).send({ msg: "Bad Request" });
-  } else {
-    next(err);
-  }
-})
+app.get("/api/comments/:gem_id", getGemComments);
 
-app.all("*", (req, res, next) => {
-    res.status(404).send({msg: "Requested Endpoint Not Found!"})
-})
+app.post("/api/comments", postComment);
+
+app.delete("/api/comments/:comment_id", deleteComment)
+
+app.get("/api/users", getAllUsers);
+
+app.get("/api/users/:user_id", getUserById);
+
+app.post("/api/users", postUser);
+
+app.patch("/api/users/:user_id", patchUser);
+
+//Error Handling
+
+app.use(handlePSQLErrors);
+app.use(handleCustomErrors);
+app.use(handleServerErrors);
+app.all("/*", (req, res) => {
+  res.status(404).send({ msg: "Page not found!" });
+});
 
 module.exports = app;

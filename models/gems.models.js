@@ -11,9 +11,9 @@ exports.selectAllGems = (sort_by = "date", order = "desc", category, date) => {
   const validCategories = ["nature", "culture", "food"]
 
   if (!validSortByQueries.includes(sort_by)) {
-    return Promise.reject({ status: 400, msg: "Bad Request" });
+    return Promise.reject({ status: 400, msg: "Bad request" });
   } else if (!validOrders.includes(order)) {
-    return Promise.reject({ status: 400, msg: "Bad Request" });
+    return Promise.reject({ status: 400, msg: "Bad request" });
   }
 
   let sqlString = `SELECT * FROM gems GROUP BY gems.gem_id ORDER BY ${sort_by} ${order} `;
@@ -24,7 +24,7 @@ exports.selectAllGems = (sort_by = "date", order = "desc", category, date) => {
     if(!validCategories.includes(category)) {
         return Promise.reject({
             status: 404,
-            msg: "Not Found"
+            msg: "Not found"
         })
     }
     else {
@@ -51,7 +51,7 @@ exports.selectGemsByID = (gem_id) => {
       if (rows.length === 0) {
         return Promise.reject({
           status: 404,
-          msg: "Not Found",
+          msg: "Not found",
         });
       } else {
         return rows[0];
