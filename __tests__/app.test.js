@@ -327,7 +327,6 @@ describe("gems", () => {
         });
     });
   });
-  
   describe("SORT QUERY GET /api/gems", () => {
     test("receive status 200 and an array of gem objects sorted by date", () => {
       return request(app)
