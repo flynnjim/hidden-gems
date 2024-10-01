@@ -103,4 +103,33 @@ describe("comments", () => {
         });
     });
   });
+  describe('DELETE /api/comments/:comment_id', () => {
+    test('returns 204 status code and empty object', () => {
+      return request(app)
+      .delete('/api/comments/1')
+      .expect(204)
+      .then((response) => {
+        const {body} = response
+        expect(body).toEqual({})
+      })
+    })
+    test('returns a 404 response when no comment with comment_id', () => {
+      return request(app)
+      .delete('/api/comments/999')
+      .expect(404)
+      .then((response) => {
+        const {body} = response
+        expect(body.msg).toBe('Comment not found')
+      })
+    })
+    test('returns 400 status response bad request when invalid comment_id passed', () => {
+      return request(app)
+      .delete('/api/comments/one')
+      .expect(400)
+      .then((response) => {
+        const { body } = response
+        expect(body.msg).toBe('Invalid comment_id')
+      })
+    })
+  })
 });
