@@ -261,7 +261,7 @@ describe("Users API Testing", () => {
 
 // GEMS TESTS
 
-describe("gems", () => {
+describe("Gems API Testing", () => {
   describe("GET /api/gems", () => {
     test("receive a status 200 and a response with an array of all gems objects", () => {
       return request(app)
@@ -449,7 +449,7 @@ describe("gems", () => {
 
 // COMMENTS TESTS
 
-describe("comments", () => {
+describe("Comments API Testing", () => {
   describe("GET /api/comments", () => {
     test("200: reponds with data with correct properties", () => {
       return request(app)
