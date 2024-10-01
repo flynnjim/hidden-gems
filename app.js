@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const { getGems, getGemByID } = require("./controllers/gems.controllers");
 const {
   getAllUsers,
   getUserById,
@@ -20,6 +21,10 @@ const { getAllComments } = require("./controllers/get-all-comments.controller");
 const { getGemComments } = require("./controllers/get-gem-comments.controller");
 const { postComment } = require("./controllers/post-new-comment.controller");
 const { deleteComment } = require('./controllers/delete-comment.controller')
+
+app.get("/api/gems", getGems);
+
+app.get("/api/gems/:gem_id", getGemByID);
 
 app.get("/api/comments", getAllComments);
 
