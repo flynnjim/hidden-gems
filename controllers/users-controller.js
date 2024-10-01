@@ -1,8 +1,9 @@
-const { use } = require("../app");
+// const { use } = require("../app");
 const {
   fetchAllUsers,
   fetchUserById,
   createNewUser,
+  updateUser,
 } = require("../models/users-model");
 
 exports.getAllUsers = (req, res, next) => {
@@ -33,6 +34,18 @@ exports.postUser = (req, res, next) => {
   createNewUser(newUser)
     .then((userData) => {
       res.status(201).send(userData);
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+exports.patchUser = (req, res, next) => {
+  const { user_id } = req.params;
+  const updatedUser = req.body;
+  updateUser(user_id, updatedUser)
+    .then((userData) => {
+      res.status(200).send(userData);
     })
     .catch((err) => {
       next(err);

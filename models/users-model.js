@@ -51,3 +51,19 @@ exports.createNewUser = (newUser) => {
     return rows[0];
   });
 };
+
+exports.updateUser = (user_id, updatedUser) => {
+  let queryString = `UPDATE users SET `;
+  const array = [];
+
+  for (const key in updatedUser) {
+    array.push(`${key} = '${updatedUser[key]}'`);
+  }
+  queryString += `${array.join(", ")} WHERE user_id = $1 RETURNING *;`;
+
+  return db.query(queryString, [user_id]).then(({ rows }) => {
+    if (rows.length === 0) {
+      return Promise.reject({ status: 404, msg: "User does not exist!" });
+    } else return rows[0];
+  });
+};

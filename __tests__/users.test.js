@@ -176,4 +176,83 @@ describe("Users API Testing", () => {
         });
     });
   });
+
+  describe("PATCH /api/users/:user_id - will update the user data and return updated user info", () => {
+    test("status 200: updates user data given a user_id and entire new user object, and returns updated user object", () => {
+      const updatedUser = {
+        name: "New Name",
+        user_type: "artist",
+        email: "new@email.com",
+        password: "newpassword",
+        avatar_url: "http://newavatarurl.com/",
+      };
+      return request(app)
+        .patch("/api/users/4")
+        .send(updatedUser)
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.name).toBe("New Name");
+          expect(body.user_type).toBe("artist");
+          expect(body.email).toBe("new@email.com");
+          expect(body.password).toBe("newpassword");
+          expect(body.avatar_url).toBe("http://newavatarurl.com/");
+          expect(body.user_id).toBe(4);
+          expect(body.username).toBe("emilyd202");
+        });
+    });
+    test("status 200: updates user data given a user_id and one updated value, and returns updated user object", () => {
+      const updatedUser = {
+        name: "Michael Brown",
+        email: "mikebrown@example.com",
+        password: "Browny2024#",
+        avatar_url:
+          "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/avatars%2FMichael%20Brown.png?alt=media&token=f6821d60-6fd6-4f86-9f81-f7c5ce480898",
+        user_type: "artist",
+        user_id: 3,
+      };
+      return request(app)
+        .patch("/api/users/3")
+        .send({ user_type: "artist" })
+        .expect(200)
+        .then(({ body }) => {
+          expect(body).toMatchObject(updatedUser);
+        });
+    });
+    test("status 404: sends an appropriate status and error message when given a valid but non-existent user_id", () => {
+      return request(app)
+        .patch("/api/users/9999")
+        .send({ username: "newusername" })
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe("User does not exist!");
+        });
+    });
+    test("status code 400: responds with appropriate status and error message when given an invalid user_id", () => {
+      return request(app)
+        .patch("/api/users/cat")
+        .send({ username: "newusername" })
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Bad request");
+        });
+    });
+    test("status 400: returns appropriate status code and error message when invalid key:value pair is sent through", () => {
+      return request(app)
+        .patch("/api/users/2")
+        .send({ invalid_key: "test" })
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Bad request");
+        });
+    });
+    test("status 403: returns appropriate status code and error message when username key is sent through (username cannot be updated)", () => {
+      return request(app)
+        .patch("/api/users/2")
+        .send({ invalid_key: "test" })
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Bad request");
+        });
+    });
+  });
 });
