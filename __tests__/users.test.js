@@ -109,7 +109,7 @@ describe("Users API Testing", () => {
         .send({
           name: "Emily Spiers",
           username: "emilys123",
-          user_type: "reguar",
+          user_type: "regular",
           email: "test@email.com",
           password: "testpassword",
           avatar_url: "https://avatar.iran.liara.run/public/59",
@@ -119,7 +119,7 @@ describe("Users API Testing", () => {
           expect(body).toMatchObject({
             name: "Emily Spiers",
             username: "emilys123",
-            user_type: "reguar",
+            user_type: "regular",
             email: "test@email.com",
             password: "testpassword",
             avatar_url: "https://avatar.iran.liara.run/public/59",
@@ -133,7 +133,7 @@ describe("Users API Testing", () => {
         .send({
           name: "Emily Spiers",
           username: "emilys123",
-          user_type: "reguar",
+          user_type: "regular",
           email: "test@email.com",
           password: "testpassword",
         })
@@ -149,13 +149,30 @@ describe("Users API Testing", () => {
         .post("/api/users")
         .send({
           name: "Emily Spiers",
-          user_type: "reguar",
+          user_type: "regular",
           email: "test@email.com",
           password: "testpassword",
         })
         .expect(400)
         .then(({ body }) => {
           expect(body.msg).toBe("Bad request");
+        });
+    });
+    test("status 409: returns appropriate status code and error message when username already exists", () => {
+      return request(app)
+        .post("/api/users")
+        .send({
+          name: "Michael Brown",
+          username: "mikebrown789",
+          email: "mikebrown@example.com",
+          password: "Browny2024#",
+          avatar_url:
+            "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/avatars%2FMichael%20Brown.png?alt=media&token=f6821d60-6fd6-4f86-9f81-f7c5ce480898",
+          user_type: "regular",
+        })
+        .expect(409)
+        .then(({ body }) => {
+          expect(body.msg).toBe("User already exists!");
         });
     });
   });

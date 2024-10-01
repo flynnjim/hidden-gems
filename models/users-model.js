@@ -27,3 +27,27 @@ exports.fetchUserById = (user_id) => {
       } else return rows[0];
     });
 };
+
+exports.createNewUser = (newUser) => {
+  let queryString = `INSERT INTO users 
+        (name, username, email, user_type, password, avatar_url)
+        VALUES ($1, $2, $3, $4, $5`;
+
+  const values = [
+    newUser.name,
+    newUser.username,
+    newUser.email,
+    newUser.user_type,
+    newUser.password,
+  ];
+
+  if (newUser.avatar_url) {
+    values.push(newUser.avatar_url);
+    queryString += `, $6) RETURNING *;`;
+  } else {
+    queryString += `, DEFAULT) RETURNING *;`;
+  }
+  return db.query(queryString, values).then(({ rows }) => {
+    return rows[0];
+  });
+};

@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const { getAllUsers, getUserById } = require("./controllers/users-controller");
+const { getAllUsers, getUserById, postUser } = require("./controllers/users-controller");
 const {
   handlePSQLErrors,
   handleCustomErrors,
@@ -14,6 +14,8 @@ app.use(express.json());
 app.get("/api/users", getAllUsers);
 
 app.get("/api/users/:user_id", getUserById);
+
+app.post("/api/users", postUser)
 
 //Error Handling
 
