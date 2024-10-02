@@ -304,7 +304,6 @@ describe("Gems API Testing", () => {
         .get("/api/gems/2")
         .expect(200)
         .then(({ body }) => {
-          console.log(body)
           expect(body.gem).toMatchObject({
             gem_id: 2,
             title: "Foraging Adventure",
