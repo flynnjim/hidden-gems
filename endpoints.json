@@ -126,5 +126,47 @@
     "description": "deletes comment by comment_id",
     "queries": [],
     "exampleResponse": {}
+  },
+  "POST /api/gems": {
+    "description": "accepts an object as a gem and adds it to gems",
+    "queries": [],
+    "accepts": {
+      "title": "Example Event Title",
+      "description": "Example event description",
+      "category": "culture",
+      "img_url": ["https://example-img-url.com/"],
+      "latitude": 53.4783,
+      "longitude": -2.248,
+      "address": "1 Hardman Square, Spinningfields, Manchester M3 3EB, United Kingdom",
+      "date": "2025-01-17T18:00",
+      "user_id": 4,
+      "type": "event"
+    },
+    "exampleResponse": {
+      "gem_id": 10,
+      "description": "accepts an object as a gem and adds it to gems",
+      "queries": [],
+      "accepts": {
+        "title": "Example Event Title",
+        "description": "Example event description",
+        "category": "culture",
+        "img_url": ["https://example-img-url.com/"],
+        "latitude": 53.4783,
+        "longitude": -2.248,
+        "address": "1 Hardman Square, Spinningfields, Manchester M3 3EB, United Kingdom",
+        "date": "2025-01-17T18:00",
+        "user_id": 4,
+        "rating": [],
+        "type": "event"
+      }
+    }
+  },
+  "PATCH /api/gems": {
+    "description": "accepts a key-value pair of a rating and adds it to the gems rating array, returning the new average rating",
+    "queries": [],
+    "accepts": {
+      "new_rating": 5
+    },
+    "exampleResponse": { "rating": 3 }
   }
 }
