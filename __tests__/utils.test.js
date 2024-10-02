@@ -45,7 +45,7 @@ describe("checkDateExists", () => {
   test("returns false if date does not exist", () => {
     return checkDateExists("1999-10-05T07:00:00.000Z").then()
     .catch((err) => {
-      expect(err).toEqual({status: 404, message: "Not found"})
+      expect(err).toEqual({status: 404, msg: "Not found"})
     })
   })
 })
