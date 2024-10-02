@@ -1,14 +1,14 @@
 const { selectAllGems, selectGemsByID } = require("../models/gems.models");
 
 exports.getGems = (request, response, next) => {
-  const { sort_by, order, category, date } = request.query;
+  const { sort_by, order, category, date, type } = request.query;
 
-  selectAllGems(sort_by, order, category, date)
+  selectAllGems(sort_by, order, category, date, type)
     .then((gems) => {
       response.status(200).send({ gems });
     })
     .catch((err) => {
-        console.log(err)
+      console.log(err);
       next(err);
     });
 };
