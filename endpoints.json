@@ -1,0 +1,83 @@
+{
+  "GET /api": {
+    "description": "serves up a json representation of all the available endpoints of the api"
+  },
+  "GET /api/users": {
+    "description": "serves an array of all users",
+    "queries": ["filter_by = username"],
+    "exampleResponse": [
+      {
+        "user_id": 1,
+        "name": "John Doe",
+        "username": "johndoe123",
+        "email": "johndoe@example.com",
+        "password": "P@ssw0rd123!",
+        "avatar_url": "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/avatars%2FJohn%20Doe.png?alt=media&token=c19e3cb9-6890-498d-b0be-4ec63e24ed11",
+        "user_type": "artist"
+      },
+      {
+        "user_id": 2,
+        "name": "Jane Smith",
+        "username": "janesmith456",
+        "email": "janesmith@example.com",
+        "password": "S3cur3P@ss!",
+        "avatar_url": "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/avatars%2FJane%20Smith.png?alt=media&token=395e8115-f077-40a8-9731-e2cb44641db9",
+        "user_type": "artist"
+      }
+    ]
+  },
+  "GET /api/users/:user_id": {
+    "description": "serves a user object by its id",
+    "queries": [],
+    "exampleResponse": {
+      "user_id": 2,
+      "name": "Jane Smith",
+      "username": "janesmith456",
+      "email": "janesmith@example.com",
+      "avatar_url": "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/avatars%2FJane%20Smith.png?alt=media&token=395e8115-f077-40a8-9731-e2cb44641db9",
+      "user_type": "artist"
+    }
+  },
+  "POST /api/users": {
+    "description": "accepts an object as a user and adds it to users",
+    "queries": [],
+    "accepts": {
+      "name": "Emily Spiers",
+      "username": "emilys123",
+      "user_type": "regular",
+      "email": "test@email.com",
+      "password": "testpassword",
+      "avatar_url": "https://avatar.iran.liara.run/public/59"
+    },
+    "exampleResponse": {
+      "user_id": 5,
+      "name": "Emily Spiers",
+      "username": "emilys123",
+      "user_type": "regular",
+      "email": "test@email.com",
+      "password": "testpassword",
+      "avatar_url": "https://avatar.iran.liara.run/public/59"
+    }
+  },
+  "PATCH /api/users": {
+    "description": "accepts an object of one or more key-value pairs of updated user information and uses it to update the user",
+    "queries": [],
+    "accepts": [
+      { "user_type": "artist" },
+      { "name": "Michael Brown" },
+      { "email": "test@email.com" },
+      { "password": "testpassword" },
+      { "avatar_url": "https://avatar.iran.liara.run/public/59" }
+    ],
+    "constraints": "does not accept changes to username",
+    "exampleResponse": {
+      "user_id": 3,
+      "name": "Michael Brown",
+      "username": "emilys123",
+      "user_type": "artist",
+      "email": "test@email.com",
+      "password": "testpassword",
+      "avatar_url": "https://avatar.iran.liara.run/public/59"
+    }
+  }
+}

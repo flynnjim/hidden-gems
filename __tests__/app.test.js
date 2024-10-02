@@ -3,6 +3,7 @@ const seed = require("../db/seeds/seed");
 const testData = require("../db/data/test-data/index");
 const request = require("supertest");
 const app = require("../app");
+const endpoints = require("../endpoints.json")
 
 beforeEach(() => {
   return seed(testData);
@@ -10,6 +11,17 @@ beforeEach(() => {
 afterAll(() => {
   return db.end();
 });
+
+describe("Endpoints test - GET /api", () => {
+  test("status code 200: will return a json representation of all of the available endpoints of the APP", () => {
+    return request(app)
+    .get("/api")
+    .expect(200)
+    .then(({body}) => {
+      expect(body.endpoints).toMatchObject(endpoints)
+    })
+  })
+})
 
 // USERS TESTS
 
