@@ -55,7 +55,6 @@ describe("Users API Testing", () => {
         });
     });
   });
-
   describe("GET /api/users (username query) - will filter user data by username (returns one object from the username)", () => {
     test("status code: 200: responds with a single user object filtered by username", () => {
       return request(app)
@@ -66,7 +65,6 @@ describe("Users API Testing", () => {
           expect(body.username).toBe("johndoe123");
         });
     });
-
     test("status code 404: responds with appropriate status and error message when given a valid but non-existent username", () => {
       return request(app)
         .get("/api/users?filter_by=username")
@@ -77,7 +75,6 @@ describe("Users API Testing", () => {
         });
     });
   });
-
   describe("GET /api/users/:user_id - will return a single user object by user_id", () => {
     test("status code 200: responds will a user object using user_id", () => {
       return request(app)
@@ -117,7 +114,6 @@ describe("Users API Testing", () => {
         });
     });
   });
-
   describe("POST /api/users - will post a new user and return user info", () => {
     test("status: 201: posts a new user and returns user", () => {
       return request(app)
@@ -549,6 +545,168 @@ describe("Gems API Testing", () => {
         });
     });
   })
+  describe("POST /api/gems", () => {
+    test("status code: 201: posts a new gem to the database and returns new gem (rating defaults to empty array)", () => {
+      return request(app)
+        .post("/api/gems")
+        .send({
+          title: "Street Food Festival",
+          description:
+            "Sample a variety of street food from local and international vendors.",
+          category: "food",
+          img_url: [
+            "https://console.firebase.google.com/project/fir-project-28217/storage/fir-project-28217.appspot.com/files/~2Fgems#:~:text=Name-,street%2Dfood.jpeg,-Size",
+          ],
+          latitude: 53.479641,
+          longitude: -2.24551,
+          address: "Albert Square, Manchester M2 5DB, United Kingdom",
+          date: "2025-01-17T18:00",
+          type: "event",
+          user_id: 3,
+        })
+        .expect(201)
+        .then(({ body }) => {
+          expect(body).toMatchObject({
+            gem_id: 5,
+            title: "Street Food Festival",
+            description:
+              "Sample a variety of street food from local and international vendors.",
+            category: "food",
+            img_url: [
+              "https://console.firebase.google.com/project/fir-project-28217/storage/fir-project-28217.appspot.com/files/~2Fgems#:~:text=Name-,street%2Dfood.jpeg,-Size",
+            ],
+            latitude: 53.479641,
+            longitude: -2.24551,
+            address: "Albert Square, Manchester M2 5DB, United Kingdom",
+            date: "2025-01-17T18:00:00.000Z",
+            type: "event",
+            rating: [],
+            user_id: 3,
+          });
+        });
+    });
+    test("status code: 201: posts a new gem with default img_url when no img_url is sent through", () => {
+      return request(app)
+        .post("/api/gems")
+        .send({
+          title: "Street Food Festival",
+          description:
+            "Sample a variety of street food from local and international vendors.",
+          category: "food",
+          latitude: 53.479641,
+          longitude: -2.24551,
+          address: "Albert Square, Manchester M2 5DB, United Kingdom",
+          date: "2024-10-01T18:00",
+          type: "event",
+          user_id: 3,
+        })
+        .expect(201)
+        .then(({ body }) => {
+          expect(body).toMatchObject({
+            gem_id: 5,
+            title: "Street Food Festival",
+            description:
+              "Sample a variety of street food from local and international vendors.",
+            category: "food",
+            img_url: [
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3-tQciY90p_grchQZkdICyzAGcdTYsRDfjw&s",
+            ],
+            latitude: 53.479641,
+            longitude: -2.24551,
+            address: "Albert Square, Manchester M2 5DB, United Kingdom",
+            date: "2024-10-01T17:00:00.000Z",
+            type: "event",
+            rating: [],
+            user_id: 3,
+          });
+        });
+    });
+    test("status code: 400: responds with appropriate error status and message when object passed through is missing some data (title)", () => {
+      return request(app)
+        .post("/api/gems")
+        .send({
+          description:
+            "Sample a variety of street food from local and international vendors.",
+          category: "food",
+          latitude: 53.479641,
+          longitude: -2.24551,
+          address: "Albert Square, Manchester M2 5DB, United Kingdom",
+          date: "2024-10-01T18:00",
+          type: "event",
+          user_id: 3,
+        })
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Bad request");
+        });
+    });
+    test("status code: 404: responds with appropriate error status and message when user_id is passed through and is valid but does not exist", () => {
+      return request(app)
+        .post("/api/gems")
+        .send({
+          title: "Street Food Festival",
+          description:
+            "Sample a variety of street food from local and international vendors.",
+          category: "food",
+          latitude: 53.479641,
+          longitude: -2.24551,
+          address: "Albert Square, Manchester M2 5DB, United Kingdom",
+          date: "2024-10-01T18:00",
+          type: "event",
+          user_id: 15,
+        })
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe("user_id does not exist!");
+        });
+    });
+  });
+  describe("PATCH /api/gems/:gem_id", () => {
+    test("status 200: updates a gem in the database by gem_id when given a new rating", () => {
+      return request(app)
+        .patch("/api/gems/1")
+        .send({
+          new_rating: 5,
+        })
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.rating).toBe("3.0");
+        });
+    });
+    test("status: 404: receive appropriate status and error message when given a valid but non-existent gem_id", () => {
+      return request(app)
+        .patch("/api/gems/999")
+        .send({
+          new_rating: 5,
+        })
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Not found");
+        });
+    });
+    test("status: 400: receive appropriate status and error message when given an invalid gem_id", () => {
+      return request(app)
+        .patch("/api/gems/not-an-id")
+        .send({
+          new_rating: 5,
+        })
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Bad request");
+        });
+    });
+    test("status 400: sends an appropriate status and error message when given a non-valid body", () => {
+      return request(app)
+        .patch("/api/gems/1")
+        .send({
+          new_rating: "not-valid",
+        })
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Bad request");
+        });
+    });
+  });
 });
 
 // COMMENTS TESTS
@@ -753,173 +911,5 @@ describe("Comments API Testing", () => {
           expect(body.msg).toBe("Bad request");
         });
     });
-  });
-});
-
-// POST GEMS TESTS
-
-describe("POST /api/gems", () => {
-  test("status code: 201: posts a new gem to the database and returns new gem (rating defaults to empty array)", () => {
-    return request(app)
-      .post("/api/gems")
-      .send({
-        title: "Street Food Festival",
-        description:
-          "Sample a variety of street food from local and international vendors.",
-        category: "food",
-        img_url: [
-          "https://console.firebase.google.com/project/fir-project-28217/storage/fir-project-28217.appspot.com/files/~2Fgems#:~:text=Name-,street%2Dfood.jpeg,-Size",
-        ],
-        latitude: 53.479641,
-        longitude: -2.24551,
-        address: "Albert Square, Manchester M2 5DB, United Kingdom",
-        date: "2025-01-17T18:00",
-        type: "event",
-        user_id: 3,
-      })
-      .expect(201)
-      .then(({ body }) => {
-        expect(body).toMatchObject({
-          gem_id: 5,
-          title: "Street Food Festival",
-          description:
-            "Sample a variety of street food from local and international vendors.",
-          category: "food",
-          img_url: [
-            "https://console.firebase.google.com/project/fir-project-28217/storage/fir-project-28217.appspot.com/files/~2Fgems#:~:text=Name-,street%2Dfood.jpeg,-Size",
-          ],
-          latitude: 53.479641,
-          longitude: -2.24551,
-          address: "Albert Square, Manchester M2 5DB, United Kingdom",
-          date: "2025-01-17T18:00:00.000Z",
-          type: "event",
-          rating: [],
-          user_id: 3,
-        });
-      });
-  });
-  test("status code: 201: posts a new gem with default img_url when no img_url is sent through", () => {
-    return request(app)
-      .post("/api/gems")
-      .send({
-        title: "Street Food Festival",
-        description:
-          "Sample a variety of street food from local and international vendors.",
-        category: "food",
-        latitude: 53.479641,
-        longitude: -2.24551,
-        address: "Albert Square, Manchester M2 5DB, United Kingdom",
-        date: "2024-10-01T18:00",
-        type: "event",
-        user_id: 3,
-      })
-      .expect(201)
-      .then(({ body }) => {
-        expect(body).toMatchObject({
-          gem_id: 5,
-          title: "Street Food Festival",
-          description:
-            "Sample a variety of street food from local and international vendors.",
-          category: "food",
-          img_url: [
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3-tQciY90p_grchQZkdICyzAGcdTYsRDfjw&s",
-          ],
-          latitude: 53.479641,
-          longitude: -2.24551,
-          address: "Albert Square, Manchester M2 5DB, United Kingdom",
-          date: "2024-10-01T17:00:00.000Z",
-          type: "event",
-          rating: [],
-          user_id: 3,
-        });
-      });
-  });
-  test("status code: 400: responds with appropriate error status and message when object passed through is missing some data (title)", () => {
-    return request(app)
-      .post("/api/gems")
-      .send({
-        description:
-          "Sample a variety of street food from local and international vendors.",
-        category: "food",
-        latitude: 53.479641,
-        longitude: -2.24551,
-        address: "Albert Square, Manchester M2 5DB, United Kingdom",
-        date: "2024-10-01T18:00",
-        type: "event",
-        user_id: 3,
-      })
-      .expect(400)
-      .then(({ body }) => {
-        expect(body.msg).toBe("Bad request");
-      });
-  });
-  test("status code: 404: responds with appropriate error status and message when user_id is passed through and is valid but does not exist", () => {
-    return request(app)
-      .post("/api/gems")
-      .send({
-        title: "Street Food Festival",
-        description:
-          "Sample a variety of street food from local and international vendors.",
-        category: "food",
-        latitude: 53.479641,
-        longitude: -2.24551,
-        address: "Albert Square, Manchester M2 5DB, United Kingdom",
-        date: "2024-10-01T18:00",
-        type: "event",
-        user_id: 15,
-      })
-      .expect(404)
-      .then(({ body }) => {
-        expect(body.msg).toBe("user_id does not exist!");
-      });
-  });
-});
-
-// PATCH GEMS TESTS
-
-describe("PATCH /api/gems/:gem_id", () => {
-  test("status 200: updates a gem in the database by gem_id when given a new rating", () => {
-    return request(app)
-      .patch("/api/gems/1")
-      .send({
-        new_rating: 5,
-      })
-      .expect(200)
-      .then(({ body }) => {
-        expect(body.rating).toBe("3.0");
-      });
-  });
-  test("status: 404: receive appropriate status and error message when given a valid but non-existent gem_id", () => {
-    return request(app)
-      .patch("/api/gems/999")
-      .send({
-        new_rating: 5,
-      })
-      .expect(404)
-      .then(({ body }) => {
-        expect(body.msg).toBe("Not found");
-      });
-  });
-  test("status: 400: receive appropriate status and error message when given an invalid gem_id", () => {
-    return request(app)
-      .patch("/api/gems/not-an-id")
-      .send({
-        new_rating: 5,
-      })
-      .expect(400)
-      .then(({ body }) => {
-        expect(body.msg).toBe("Bad request");
-      });
-  });
-  test("status 400: sends an appropriate status and error message when given a non-valid body", () => {
-    return request(app)
-      .patch("/api/gems/1")
-      .send({
-        new_rating: "not-valid",
-      })
-      .expect(400)
-      .then(({ body }) => {
-        expect(body.msg).toBe("Bad request");
-      });
   });
 });
