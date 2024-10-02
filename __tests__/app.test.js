@@ -275,7 +275,7 @@ describe("Users API Testing", () => {
 
 // GEMS TESTS
 
-describe("Gems API Testing", () => {
+describe.only("Gems API Testing", () => {
   describe("GET /api/gems", () => {
     test("receive a status 200 and a response with an array of all gems objects", () => {
       return request(app)
@@ -319,7 +319,7 @@ describe("Gems API Testing", () => {
             address: "18 Stenner Ln, Didsbury, Manchester M20 2RQ",
             date: "2023-10-05T07:00:00.000Z",
             user_id: 1,
-            rating: [4, 1, 3],
+            rating: "2.6666666666666667",
             type: "event",
           });
         });
@@ -348,22 +348,34 @@ describe("Gems API Testing", () => {
         .get("/api/gems?sort_by=date")
         .expect(200)
         .then(({ body }) => {
+          expect(body.gems.length).toBe(4);
           expect(body.gems).toBeSortedBy("date", { descending: true });
         });
     });
-    // test("receive status 200 and an array of gem objects sorted by rating", () => {
-    //   return request(app)
-    //     .get("/api/gems?sort_by=rating")
-    //     .expect(200)
-    //     .then(({ body }) => {
-    //       expect(body.gems).toBeSortedBy("rating", { descending: true });
-    //     });
-    // });
+    test("receive status 200 and an array of gem objects sorted by rating", () => {
+      return request(app)
+        .get("/api/gems?sort_by=rating")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.gems.length).toBe(4);
+          expect(body.gems).toBeSortedBy("rating", { descending: true });
+        });
+    });
+    test("receive status 200 and an array of gem objects sorted by rating in asc order", () => {
+      return request(app)
+        .get("/api/gems?sort_by=rating&order=asc")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.gems.length).toBe(4);
+          expect(body.gems).toBeSortedBy("rating", { descending: false });
+        });
+    });
     test("receive status 200 and an array of gem objects sorted by date in asc order", () => {
       return request(app)
         .get("/api/gems?order=asc")
         .expect(200)
         .then(({ body }) => {
+          expect(body.gems.length).toBe(4);
           expect(body.gems).toBeSortedBy("date", { descending: false });
         });
     });
@@ -372,12 +384,21 @@ describe("Gems API Testing", () => {
         .get("/api/gems?sort_by=date&order=desc")
         .expect(200)
         .then(({ body }) => {
+          expect(body.gems.length).toBe(4);
           expect(body.gems).toBeSortedBy("date", { descending: true });
         });
     });
     test("receive status 400 and an error message when given an invalid order by query", () => {
       return request(app)
         .get("/api/gems?sort_by=date&order=hi")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Bad request");
+        });
+    });
+    test("receive status 400 and an error message when given an invalid sort_by query", () => {
+      return request(app)
+        .get("/api/gems?sort_by=banana&order=hi")
         .expect(400)
         .then(({ body }) => {
           expect(body.msg).toBe("Bad request");
@@ -443,21 +464,51 @@ describe("Gems API Testing", () => {
         .get("/api/gems?date=2023-10-05T07:00:00.000Z")
         .expect(200)
         .then(({ body }) => {
+          expect(body.gems.length).toBe(1);
+          expect(body.gems[0]).toHaveProperty("date");
+          body.gems.forEach((gem) => {
+            expect(gem).toHaveProperty("date");
+            expect(gem.date).toBe("2023-10-05T07:00:00.000Z");
+          });
+        });
+    });
+    test("receive status 200 and an array of gems filtered by date and another filter", () => {
+      return request(app)
+        .get("/api/gems?date=2023-10-05T07:00:00.000Z&category=nature")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.gems.length).toBe(1);
           body.gems.forEach((gem) => {
             expect(gem.date).toBe("2023-10-05T07:00:00.000Z");
           });
         });
     });
-    // test("receive status 200 and an array of gems filtered by date and another filter", () => {
-    //     return request(app)
-    //     .get("/api/gems?date=2023-10-05T07:00:00.000Z&category=nature")
-    //     .expect(200)
-    //     .then(({ body }) => {
-    //         body.gems.forEach((gem) => {
-    //             expect(gem.date).toBe("2023-10-05T07:00:00.000Z")
-    //         })
-    //     })
-    // })
+    //single type test
+    test("receive status 200 and an array of gems filtered by type and another filter", () => {
+      return request(app)
+        .get("/api/gems?type=event&date=2023-10-05T07:00:00.000Z")
+        .expect(200)
+        .then(({ body }) => {
+          console.log(body);
+          expect(body.gems.length).toBe(1);
+          body.gems.forEach((gem) => {
+            expect(gem.date).toBe("2023-10-05T07:00:00.000Z");
+            expect(gem.type).toBe("event");
+          });
+        });
+    });
+    test("receive status 200 and an array of gems filtered by type and another filter", () => {
+      return request(app)
+        .get("/api/gems?type=place&date=2023-10-05T07:00:00.000Z")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.gems.length).toBe(0);
+          body.gems.forEach((gem) => {
+            expect(gem.date).toBe("2023-10-05T07:00:00.000Z");
+            expect(gem.type).toBe("place");
+          });
+        });
+    });
   });
 });
 
