@@ -3,6 +3,8 @@ exports.handlePSQLErrors = (err, req, res, next) => {
     res.status(400).send({ msg: "Bad request" });
   } else if (err.code === "23505") {
     res.status(409).send({ msg: "User already exists!" });
+  } else if (err.code === "23503") {
+    res.status(404).send({ msg: "user_id does not exist!" });
   } else {
     next(err);
   }

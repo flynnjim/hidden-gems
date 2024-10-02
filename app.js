@@ -3,6 +3,7 @@ const cors = require("cors");
 const app = express();
 const { getEndpoints } = require("./controllers/endpoints-controller");
 const { getGems, getGemByID } = require("./controllers/gems.controllers");
+const { postGem } = require("./controllers/post-gems-controller");
 const {
   getAllUsers,
   getUserById,
@@ -36,6 +37,8 @@ app.patch("/api/users/:user_id", patchUser);
 app.get("/api/gems", getGems);
 
 app.get("/api/gems/:gem_id", getGemByID);
+
+app.post("/api/gems", postGem);
 
 app.get("/api/comments", getAllComments);
 

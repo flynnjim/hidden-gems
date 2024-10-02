@@ -3,7 +3,7 @@ const seed = require("../db/seeds/seed");
 const testData = require("../db/data/test-data/index");
 const request = require("supertest");
 const app = require("../app");
-const endpoints = require("../endpoints.json")
+const endpoints = require("../endpoints.json");
 
 beforeEach(() => {
   return seed(testData);
@@ -12,16 +12,18 @@ afterAll(() => {
   return db.end();
 });
 
+// ENDPOINTS TEST
+
 describe("Endpoints test - GET /api", () => {
   test("status code 200: will return a json representation of all of the available endpoints of the APP", () => {
     return request(app)
-    .get("/api")
-    .expect(200)
-    .then(({body}) => {
-      expect(body.endpoints).toMatchObject(endpoints)
-    })
-  })
-})
+      .get("/api")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.endpoints).toMatchObject(endpoints);
+      });
+  });
+});
 
 // USERS TESTS
 
@@ -339,7 +341,7 @@ describe("Gems API Testing", () => {
         });
     });
   });
-  
+
   describe("SORT QUERY GET /api/gems", () => {
     test("receive status 200 and an array of gem objects sorted by date", () => {
       return request(app)
@@ -383,81 +385,81 @@ describe("Gems API Testing", () => {
     });
   });
   describe("FILTER BY CATEGORY: GET /api/gems", () => {
-      test("receive status 200 and an array of gem objects filtered by specified category", () => {
-          return request(app)
-          .get("/api/gems?category=nature")
-          .expect(200)
-          .then(({ body }) => {
-              expect(body.gems.length).toBe(1)
-              body.gems.forEach((gem) => {
-                  expect(gem.category).toBe("nature")
-              })
-          })
-      })
-      test("receive status 200 and an array of gem objects filtered by specified category", () => {
-          return request(app)
-          .get("/api/gems?category=culture&sort_by=date")
-          .expect(200)
-          .then(({ body }) => {
-              expect(body.gems.length).toBe(2)
-              expect(body.gems).toBeSortedBy("date", { descending: true })
-              body.gems.forEach((gem) => {
-                  expect(gem.category).toBe("culture")
-              })
-          })
-      })
-      test("receive status 200 and an array of gem objects filtered by specified category", () => {
-          return request(app)
-          .get("/api/gems?category=culture&sort_by=date&order=asc")
-          .expect(200)
-          .then(({ body }) => {
-              expect(body.gems.length).toBe(2)
-              expect(body.gems).toBeSortedBy("date", { descending: false })
-              body.gems.forEach((gem) => {
-                  expect(gem.category).toBe("culture")
-              })
-          })
-      })
-      test("receive status 200 and an array of all gem objects where no filter category has been specified", () => {
-          return request(app)
-          .get("/api/gems?category=")
-          .expect(200)
-          .then(({ body }) => {
-              expect(body.gems.length).toBe(4)
-          })
-      })
-      test("receive status 400 and an error message when given a valid category data type which does not exist", () => {
-          return request(app)
-          .get("/api/gems?category=categoryDoesNotExist")
-          .expect(404)
-          .then(({ body }) => {
-              expect(body.msg).toBe("Not found")
-          })
-      })
-  })
+    test("receive status 200 and an array of gem objects filtered by specified category", () => {
+      return request(app)
+        .get("/api/gems?category=nature")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.gems.length).toBe(1);
+          body.gems.forEach((gem) => {
+            expect(gem.category).toBe("nature");
+          });
+        });
+    });
+    test("receive status 200 and an array of gem objects filtered by specified category", () => {
+      return request(app)
+        .get("/api/gems?category=culture&sort_by=date")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.gems.length).toBe(2);
+          expect(body.gems).toBeSortedBy("date", { descending: true });
+          body.gems.forEach((gem) => {
+            expect(gem.category).toBe("culture");
+          });
+        });
+    });
+    test("receive status 200 and an array of gem objects filtered by specified category", () => {
+      return request(app)
+        .get("/api/gems?category=culture&sort_by=date&order=asc")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.gems.length).toBe(2);
+          expect(body.gems).toBeSortedBy("date", { descending: false });
+          body.gems.forEach((gem) => {
+            expect(gem.category).toBe("culture");
+          });
+        });
+    });
+    test("receive status 200 and an array of all gem objects where no filter category has been specified", () => {
+      return request(app)
+        .get("/api/gems?category=")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.gems.length).toBe(4);
+        });
+    });
+    test("receive status 400 and an error message when given a valid category data type which does not exist", () => {
+      return request(app)
+        .get("/api/gems?category=categoryDoesNotExist")
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Not found");
+        });
+    });
+  });
   describe("FILTER QUERY BY DATE: GET /api/gems", () => {
-      test("receive status 200 and an array of gems filtered by a specified date", () => {
-          return request(app)
-          .get("/api/gems?date=2023-10-05T07:00:00.000Z")
-          .expect(200)
-          .then(({ body }) => {
-              body.gems.forEach((gem) => {
-                  expect(gem.date).toBe("2023-10-05T07:00:00.000Z")
-              })
-          })
-      })
-      // test("receive status 200 and an array of gems filtered by date and another filter", () => {
-      //     return request(app)
-      //     .get("/api/gems?date=2023-10-05T07:00:00.000Z&category=nature")
-      //     .expect(200)
-      //     .then(({ body }) => {
-      //         body.gems.forEach((gem) => {
-      //             expect(gem.date).toBe("2023-10-05T07:00:00.000Z")
-      //         })
-      //     })
-      // })
-  })
-})
+    test("receive status 200 and an array of gems filtered by a specified date", () => {
+      return request(app)
+        .get("/api/gems?date=2023-10-05T07:00:00.000Z")
+        .expect(200)
+        .then(({ body }) => {
+          body.gems.forEach((gem) => {
+            expect(gem.date).toBe("2023-10-05T07:00:00.000Z");
+          });
+        });
+    });
+    // test("receive status 200 and an array of gems filtered by date and another filter", () => {
+    //     return request(app)
+    //     .get("/api/gems?date=2023-10-05T07:00:00.000Z&category=nature")
+    //     .expect(200)
+    //     .then(({ body }) => {
+    //         body.gems.forEach((gem) => {
+    //             expect(gem.date).toBe("2023-10-05T07:00:00.000Z")
+    //         })
+    //     })
+    // })
+  });
+});
 
 // COMMENTS TESTS
 
@@ -557,33 +559,152 @@ describe("Comments API Testing", () => {
         });
     });
   });
-  describe('DELETE /api/comments/:comment_id', () => {
-    test('returns 204 status code and empty object', () => {
+  describe("DELETE /api/comments/:comment_id", () => {
+    test("returns 204 status code and empty object", () => {
       return request(app)
-      .delete('/api/comments/1')
-      .expect(204)
-      .then((response) => {
-        const {body} = response
-        expect(body).toEqual({})
+        .delete("/api/comments/1")
+        .expect(204)
+        .then((response) => {
+          const { body } = response;
+          expect(body).toEqual({});
+        });
+    });
+    test("returns a 404 response when no comment with comment_id", () => {
+      return request(app)
+        .delete("/api/comments/999")
+        .expect(404)
+        .then((response) => {
+          const { body } = response;
+          expect(body.msg).toBe("Comment not found");
+        });
+    });
+    test("returns 400 status response bad request when invalid comment_id passed", () => {
+      return request(app)
+        .delete("/api/comments/one")
+        .expect(400)
+        .then((response) => {
+          const { body } = response;
+          expect(body.msg).toBe("Invalid comment_id");
+        });
+    });
+  });
+});
+
+// POST GEMS TESTS
+
+describe("POST /api/gems", () => {
+  test("status code: 201: posts a new gem to the database and returns new gem (rating defaults to empty array)", () => {
+    return request(app)
+      .post("/api/gems")
+      .send({
+        title: "Street Food Festival",
+        description:
+          "Sample a variety of street food from local and international vendors.",
+        category: "food",
+        img_url: [
+          "https://console.firebase.google.com/project/fir-project-28217/storage/fir-project-28217.appspot.com/files/~2Fgems#:~:text=Name-,street%2Dfood.jpeg,-Size",
+        ],
+        latitude: 53.479641,
+        longitude: -2.24551,
+        address: "Albert Square, Manchester M2 5DB, United Kingdom",
+        date: "2025-01-17T18:00",
+        type: "event",
+        user_id: 3,
       })
-    })
-    test('returns a 404 response when no comment with comment_id', () => {
-      return request(app)
-      .delete('/api/comments/999')
-      .expect(404)
-      .then((response) => {
-        const {body} = response
-        expect(body.msg).toBe('Comment not found')
+      .expect(201)
+      .then(({ body }) => {
+        expect(body).toMatchObject({
+          gem_id: 5,
+          title: "Street Food Festival",
+          description:
+            "Sample a variety of street food from local and international vendors.",
+          category: "food",
+          img_url: [
+            "https://console.firebase.google.com/project/fir-project-28217/storage/fir-project-28217.appspot.com/files/~2Fgems#:~:text=Name-,street%2Dfood.jpeg,-Size",
+          ],
+          latitude: 53.479641,
+          longitude: -2.24551,
+          address: "Albert Square, Manchester M2 5DB, United Kingdom",
+          date: "2025-01-17T18:00:00.000Z",
+          type: "event",
+          rating: [],
+          user_id: 3,
+        });
+      });
+  });
+  test("status code: 201: posts a new gem with default img_url when no img_url is sent through", () => {
+    return request(app)
+      .post("/api/gems")
+      .send({
+        title: "Street Food Festival",
+        description:
+          "Sample a variety of street food from local and international vendors.",
+        category: "food",
+        latitude: 53.479641,
+        longitude: -2.24551,
+        address: "Albert Square, Manchester M2 5DB, United Kingdom",
+        date: "2024-10-01T18:00",
+        type: "event",
+        user_id: 3,
       })
-    })
-    test('returns 400 status response bad request when invalid comment_id passed', () => {
-      return request(app)
-      .delete('/api/comments/one')
+      .expect(201)
+      .then(({ body }) => {
+        expect(body).toMatchObject({
+          gem_id: 5,
+          title: "Street Food Festival",
+          description:
+            "Sample a variety of street food from local and international vendors.",
+          category: "food",
+          img_url: [
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3-tQciY90p_grchQZkdICyzAGcdTYsRDfjw&s",
+          ],
+          latitude: 53.479641,
+          longitude: -2.24551,
+          address: "Albert Square, Manchester M2 5DB, United Kingdom",
+          date: "2024-10-01T17:00:00.000Z",
+          type: "event",
+          rating: [],
+          user_id: 3,
+        });
+      });
+  });
+  test("status code: 400: responds with appropriate error status and message when object passed through is missing some data (title)", () => {
+    return request(app)
+      .post("/api/gems")
+      .send({
+        description:
+          "Sample a variety of street food from local and international vendors.",
+        category: "food",
+        latitude: 53.479641,
+        longitude: -2.24551,
+        address: "Albert Square, Manchester M2 5DB, United Kingdom",
+        date: "2024-10-01T18:00",
+        type: "event",
+        user_id: 3,
+      })
       .expect(400)
-      .then((response) => {
-        const { body } = response
-        expect(body.msg).toBe('Invalid comment_id')
+      .then(({ body }) => {
+        expect(body.msg).toBe("Bad request");
+      });
+  });
+  test("status code: 404: responds with appropriate error status and message when user_id is passed through and is valid but does not exist", () => {
+    return request(app)
+      .post("/api/gems")
+      .send({
+        title: "Street Food Festival",
+        description:
+          "Sample a variety of street food from local and international vendors.",
+        category: "food",
+        latitude: 53.479641,
+        longitude: -2.24551,
+        address: "Albert Square, Manchester M2 5DB, United Kingdom",
+        date: "2024-10-01T18:00",
+        type: "event",
+        user_id: 15,
       })
-    })
-  })
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("user_id does not exist!");
+      });
+  });
 });
