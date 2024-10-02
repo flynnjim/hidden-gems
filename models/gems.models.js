@@ -13,10 +13,7 @@ exports.selectAllGems = (
 
   const validCategories = ["nature", "culture", "food"];
 
-  // add valid types
-
-  // add logic to ensure only acceptable date formats are inserted as the below code will not work as a 'catch-all'
-  // const validFilters = ["date", "category", "type"];
+  const validTypes = ["event", "place"]
 
   if (!validSortByQueries.includes(sort_by)) {
     return Promise.reject({ status: 400, msg: "Bad request" });
@@ -31,26 +28,46 @@ exports.selectAllGems = (
   if (category && date) {
     sqlString += `WHERE category = $1 AND gems.date::date = $2::date`;
     queryFilter.push(category, date);
-  } else if (type && date) {
+  }
+  
+  else if (type && date) {
     sqlString += `WHERE type = $1 AND gems.date::date = $2::date`;
     queryFilter.push(type, date);
-  } else if (category) {
+  }
+  
+  else if (category && type) {
+    sqlString += `WHERE category = $1 AND type = $2`;
+    queryFilter.push(category, type);
+  }
+  
+  else if (category) {
     if (!validCategories.includes(category)) {
       return Promise.reject({
-        status: 404,
-        msg: "Not found",
+        status: 400,
+        msg: "Bad request",
       });
-    } else {
-      sqlString += `WHERE category = $1`;
-      queryFilter.push(category);
+    } sqlString += `WHERE category = $1`;
+    queryFilter.push(category);
+  } 
+  
+  else if (type) {
+     if (!validTypes.includes(type)) {
+      return Promise.reject({
+        status: 400,
+        msg: "Bad request"
+      })
     }
-  } else if (date) {
-    sqlString += `WHERE gems.date::date = $1::date`;
-    queryFilter.push(date);
+    sqlString += `WHERE type = $1`;
+    queryFilter.push(type);
   }
 
-  sqlString += ` GROUP BY gems.gem_id ORDER BY ${sort_by} ${order}`;
+  else if (date) {
+    sqlString += `WHERE gems.date::date = $1::date`;
+    queryFilter.push(date);
+  } 
 
+  sqlString += ` GROUP BY gems.gem_id ORDER BY ${sort_by} ${order}`;
+  
   return db.query(sqlString, queryFilter).then(({ rows }) => {
     return rows;
   });
@@ -73,13 +90,3 @@ exports.selectGemsByID = (gem_id) => {
       }
     });
 };
-
-// select  *
-// from events
-// where event_date between '2020-01-01 12:00:00' and '2020-01-01 23:30:00';
-
-// 2023-10-05 7:00:00
-
-// SELECT TOP 3 REPLACE(CONVERT(CHAR(10), ExpectedDeliveryDate, 110), '/', '-') ExpectedDeliveryDateFormattedAsText
-// FROM Purchasing.PurchaseOrders
-// WHERE OrderDate < @Datetime;

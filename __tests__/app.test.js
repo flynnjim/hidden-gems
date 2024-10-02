@@ -261,7 +261,7 @@ describe("Users API Testing", () => {
 
 // GEMS TESTS
 
-describe.only("Gems API Testing", () => {
+describe("Gems API Testing", () => {
   describe("GET /api/gems", () => {
     test("receive a status 200 and a response with an array of all gems objects", () => {
       return request(app)
@@ -327,7 +327,6 @@ describe.only("Gems API Testing", () => {
         });
     });
   });
-
   describe("SORT QUERY GET /api/gems", () => {
     test("receive status 200 and an array of gem objects sorted by date", () => {
       return request(app)
@@ -435,12 +434,12 @@ describe.only("Gems API Testing", () => {
           expect(body.gems.length).toBe(4);
         });
     });
-    test("receive status 400 and an error message when given a valid category data type which does not exist", () => {
+    test("receive status 400 and an error message when given an invalid category", () => {
       return request(app)
         .get("/api/gems?category=categoryDoesNotExist")
-        .expect(404)
+        .expect(400)
         .then(({ body }) => {
-          expect(body.msg).toBe("Not found");
+          expect(body.msg).toBe("Bad request");
         });
     });
   });
@@ -469,13 +468,34 @@ describe.only("Gems API Testing", () => {
           });
         });
     });
-    //single type test
+    test("receive status 404 and an error message when given a valid data type for a date that does not exist in the database", () => {
+      return request(app)
+        .get("/api/gems?date=1999-10-05T07:00:00.000Z")
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Not found");
+        });
+    });
+  });
+  describe("FILTER QUERY BY TYPE: GET /api/gems", () => {
+    test("receive status 200 and an array of gems filtered by a specified type", () => {
+      return request(app)
+        .get("/api/gems?type=event")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.gems.length).toBe(2);
+          expect(body.gems[0]).toHaveProperty("type");
+          body.gems.forEach((gem) => {
+            expect(gem).toHaveProperty("type");
+            expect(gem.type).toBe("event");
+          });
+        });
+    });
     test("receive status 200 and an array of gems filtered by type and another filter", () => {
       return request(app)
         .get("/api/gems?type=event&date=2023-10-05T07:00:00.000Z")
         .expect(200)
         .then(({ body }) => {
-          console.log(body);
           expect(body.gems.length).toBe(1);
           body.gems.forEach((gem) => {
             expect(gem.date).toBe("2023-10-05T07:00:00.000Z");
@@ -484,6 +504,18 @@ describe.only("Gems API Testing", () => {
         });
     });
     test("receive status 200 and an array of gems filtered by type and another filter", () => {
+      return request(app)
+        .get("/api/gems?type=event&category=culture")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.gems.length).toBe(1);
+          body.gems.forEach((gem) => {
+            expect(gem.type).toBe("event");
+            expect(gem.category).toBe("culture");
+          });
+        });
+    });
+    test("receive status 200 and an empty array of gems when filtered by type and another filter that would result in no gems", () => {
       return request(app)
         .get("/api/gems?type=place&date=2023-10-05T07:00:00.000Z")
         .expect(200)
@@ -495,7 +527,15 @@ describe.only("Gems API Testing", () => {
           });
         });
     });
-  });
+    test("receive status 400 and an error message when given an invalid type", () => {
+      return request(app)
+        .get("/api/gems?type=typeDoesNotExist")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Bad request");
+        });
+    });
+  })
 });
 
 // COMMENTS TESTS
