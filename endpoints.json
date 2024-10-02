@@ -1,0 +1,172 @@
+{
+  "GET /api": {
+    "description": "serves up a json representation of all the available endpoints of the api"
+  },
+  "GET /api/users": {
+    "description": "serves an array of all users",
+    "queries": ["filter_by = username"],
+    "exampleResponse": [
+      {
+        "user_id": 1,
+        "name": "John Doe",
+        "username": "johndoe123",
+        "email": "johndoe@example.com",
+        "password": "P@ssw0rd123!",
+        "avatar_url": "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/avatars%2FJohn%20Doe.png?alt=media&token=c19e3cb9-6890-498d-b0be-4ec63e24ed11",
+        "user_type": "artist"
+      },
+      {
+        "user_id": 2,
+        "name": "Jane Smith",
+        "username": "janesmith456",
+        "email": "janesmith@example.com",
+        "password": "S3cur3P@ss!",
+        "avatar_url": "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/avatars%2FJane%20Smith.png?alt=media&token=395e8115-f077-40a8-9731-e2cb44641db9",
+        "user_type": "artist"
+      }
+    ]
+  },
+  "GET /api/users/:user_id": {
+    "description": "serves a user object by its id",
+    "queries": [],
+    "exampleResponse": {
+      "user_id": 2,
+      "name": "Jane Smith",
+      "username": "janesmith456",
+      "email": "janesmith@example.com",
+      "avatar_url": "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/avatars%2FJane%20Smith.png?alt=media&token=395e8115-f077-40a8-9731-e2cb44641db9",
+      "user_type": "artist"
+    }
+  },
+  "POST /api/users": {
+    "description": "accepts an object as a user and adds it to users",
+    "queries": [],
+    "accepts": {
+      "name": "Emily Spiers",
+      "username": "emilys123",
+      "user_type": "regular",
+      "email": "test@email.com",
+      "password": "testpassword",
+      "avatar_url": "https://avatar.iran.liara.run/public/59"
+    },
+    "exampleResponse": {
+      "user_id": 5,
+      "name": "Emily Spiers",
+      "username": "emilys123",
+      "user_type": "regular",
+      "email": "test@email.com",
+      "password": "testpassword",
+      "avatar_url": "https://avatar.iran.liara.run/public/59"
+    }
+  },
+  "PATCH /api/users": {
+    "description": "accepts an object of one or more key-value pairs of updated user information and uses it to update the user",
+    "queries": [],
+    "accepts": [
+      { "user_type": "artist" },
+      { "name": "Michael Brown" },
+      { "email": "test@email.com" },
+      { "password": "testpassword" },
+      { "avatar_url": "https://avatar.iran.liara.run/public/59" }
+    ],
+    "constraints": "does not accept changes to username",
+    "exampleResponse": {
+      "user_id": 3,
+      "name": "Michael Brown",
+      "username": "emilys123",
+      "user_type": "artist",
+      "email": "test@email.com",
+      "password": "testpassword",
+      "avatar_url": "https://avatar.iran.liara.run/public/59"
+    }
+  },
+  "GET /api/comments": {
+    "description": "serves an array of all comments",
+    "queries": ["sort_by", "order"],
+    "exampleResponse": {
+      "comments": [
+        {
+          "username": "emilyd202",
+          "body": "The Foraging Adventure was such a unique experience! I learned so much about wild edibles. Highly recommend!",
+          "gem_id": 4,
+          "date": 1728166800
+        }
+      ]
+    }
+  },
+  "GET /api/comments/:gem_id": {
+    "description": "serves an array of all comments for specified gem_id",
+    "queries": ["sort_by", "order"],
+    "exampleResponse": {
+      "comments": [
+        {
+          "username": "laurajohn01",
+          "body": "The City Lights Photography Tour was spectacular! The guide offered amazing tips and I got some incredible shots.",
+          "gem_id": 6,
+          "date": 1727622000
+        }
+      ]
+    }
+  },
+  "POST /api/comments": {
+    "description": "adds a new comment to specific gem",
+    "queries": [],
+    "exampleResponse": {
+      "comments": [
+        {
+          "username": "jamesc890",
+          "body": "Moonlit Rooftop Bar is a gem! The view of the city skyline at night is stunning and the cocktails are top-notch.",
+          "gem_id": 9,
+          "date": 1728330600
+        }
+      ]
+    }
+  },
+  "DELETE /api/comments/:comment_id": {
+    "description": "deletes comment by comment_id",
+    "queries": [],
+    "exampleResponse": {}
+  },
+  "POST /api/gems": {
+    "description": "accepts an object as a gem and adds it to gems",
+    "queries": [],
+    "accepts": {
+      "title": "Example Event Title",
+      "description": "Example event description",
+      "category": "culture",
+      "img_url": ["https://example-img-url.com/"],
+      "latitude": 53.4783,
+      "longitude": -2.248,
+      "address": "1 Hardman Square, Spinningfields, Manchester M3 3EB, United Kingdom",
+      "date": "2025-01-17T18:00",
+      "user_id": 4,
+      "type": "event"
+    },
+    "exampleResponse": {
+      "gem_id": 10,
+      "description": "accepts an object as a gem and adds it to gems",
+      "queries": [],
+      "accepts": {
+        "title": "Example Event Title",
+        "description": "Example event description",
+        "category": "culture",
+        "img_url": ["https://example-img-url.com/"],
+        "latitude": 53.4783,
+        "longitude": -2.248,
+        "address": "1 Hardman Square, Spinningfields, Manchester M3 3EB, United Kingdom",
+        "date": "2025-01-17T18:00",
+        "user_id": 4,
+        "rating": [],
+        "type": "event"
+      }
+    }
+  },
+  "PATCH /api/gems": {
+    "description": "accepts a key-value pair of a rating and adds it to the gems rating array, returning the new average rating",
+    "queries": [],
+    "accepts": {
+      "new_rating": 5
+    },
+    "exampleResponse": { "rating": 3 }
+  }
+}

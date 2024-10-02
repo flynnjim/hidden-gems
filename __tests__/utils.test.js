@@ -1,4 +1,5 @@
-const { convertTimestampToDate } = require("../db/seeds/utils.js");
+const gems = require("../db/data/test-data/gems.js");
+const { convertTimestampToDate, checkDateExists } = require("../db/seeds/utils.js");
 
 describe("convertTimestampToDate", () => {
   test("returns a new object", () => {
@@ -35,3 +36,16 @@ describe("convertTimestampToDate", () => {
     expect(result).toEqual(expected);
   });
 });
+describe("checkDateExists", () => {
+  test("returns true if date exists", () => {
+    return checkDateExists("2023-10-05T07:00:00.000Z").then((result) => {
+      expect(result).toBe(true)
+    })
+  })
+  test("returns false if date does not exist", () => {
+    return checkDateExists("1999-10-05T07:00:00.000Z").then()
+    .catch((err) => {
+      expect(err).toEqual({status: 404, message: "Not found"})
+    })
+  })
+})
