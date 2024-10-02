@@ -450,7 +450,7 @@ describe("Gems API Testing", () => {
 // COMMENTS TESTS
 
 describe("Comments API Testing", () => {
-  describe.only("GET /api/comments", () => {
+  describe("GET /api/comments", () => {
     test("200: reponds with data with correct properties", () => {
       return request(app)
         .get("/api/comments")
@@ -574,7 +574,7 @@ describe("Comments API Testing", () => {
         });
     });
   });
-  describe.only("GET /api/comment sorting-queries", () => {
+  describe("GET /api/comment sorting-queries", () => {
     test("200: array of comments sorted by date ascending", () => {
       return request(app)
         .get("/api/comments?sort_by=date")
@@ -602,14 +602,14 @@ describe("Comments API Testing", () => {
           expect(body.msg).toBe("Bad request");
         });
     });
-    // test("400: error message when givebn invalid order parameter", () => {
-    //   return request(app)
-    //     .get("/api/commments?sort_by=date&order=Apple")
-    //     .expect(400)
-    //     .then((response) => {
-    //       const { body } = response;
-    //       expect(body.msg).toBe("Bad request");
-    //     });
-    // });
+    test("400: error message when givebn invalid order parameter", () => {
+      return request(app)
+        .get("/api/comments?sort_by=date&order=Apple")
+        .expect(400)
+        .then((response) => {
+          const { body } = response;
+          expect(body.msg).toBe("Bad request");
+        });
+    });
   });
 });
