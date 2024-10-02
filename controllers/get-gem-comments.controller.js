@@ -8,6 +8,6 @@ exports.getGemComments = (req, res, next) => {
         res.status(200).json(comments)
     })
     .catch((err) => {
-        res.status(err.status).json(err.msg)
+        next(err)
     })
 }
