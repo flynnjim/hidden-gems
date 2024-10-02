@@ -79,5 +79,94 @@
       "password": "testpassword",
       "avatar_url": "https://avatar.iran.liara.run/public/59"
     }
+  },
+  "GET /api/comments": {
+    "description": "serves an array of all comments",
+    "queries": ["sort_by", "order"],
+    "exampleResponse": {
+      "comments": [
+        {
+          "username": "emilyd202",
+          "body": "The Foraging Adventure was such a unique experience! I learned so much about wild edibles. Highly recommend!",
+          "gem_id": 4,
+          "date": 1728166800
+        }
+      ]
+    }
+  },
+  "GET /api/comments/:gem_id": {
+    "description": "serves an array of all comments for specified gem_id",
+    "queries": ["sort_by", "order"],
+    "exampleResponse": {
+      "comments": [
+        {
+          "username": "laurajohn01",
+          "body": "The City Lights Photography Tour was spectacular! The guide offered amazing tips and I got some incredible shots.",
+          "gem_id": 6,
+          "date": 1727622000
+        }
+      ]
+    }
+  },
+  "POST /api/comments": {
+    "description": "adds a new comment to specific gem",
+    "queries": [],
+    "exampleResponse": {
+      "comments": [
+        {
+          "username": "jamesc890",
+          "body": "Moonlit Rooftop Bar is a gem! The view of the city skyline at night is stunning and the cocktails are top-notch.",
+          "gem_id": 9,
+          "date": 1728330600
+        }
+      ]
+    }
+  },
+  "DELETE /api/comments/:comment_id": {
+    "description": "deletes comment by comment_id",
+    "queries": [],
+    "exampleResponse": {}
+  },
+  "POST /api/gems": {
+    "description": "accepts an object as a gem and adds it to gems",
+    "queries": [],
+    "accepts": {
+      "title": "Example Event Title",
+      "description": "Example event description",
+      "category": "culture",
+      "img_url": ["https://example-img-url.com/"],
+      "latitude": 53.4783,
+      "longitude": -2.248,
+      "address": "1 Hardman Square, Spinningfields, Manchester M3 3EB, United Kingdom",
+      "date": "2025-01-17T18:00",
+      "user_id": 4,
+      "type": "event"
+    },
+    "exampleResponse": {
+      "gem_id": 10,
+      "description": "accepts an object as a gem and adds it to gems",
+      "queries": [],
+      "accepts": {
+        "title": "Example Event Title",
+        "description": "Example event description",
+        "category": "culture",
+        "img_url": ["https://example-img-url.com/"],
+        "latitude": 53.4783,
+        "longitude": -2.248,
+        "address": "1 Hardman Square, Spinningfields, Manchester M3 3EB, United Kingdom",
+        "date": "2025-01-17T18:00",
+        "user_id": 4,
+        "rating": [],
+        "type": "event"
+      }
+    }
+  },
+  "PATCH /api/gems": {
+    "description": "accepts a key-value pair of a rating and adds it to the gems rating array, returning the new average rating",
+    "queries": [],
+    "accepts": {
+      "new_rating": 5
+    },
+    "exampleResponse": { "rating": 3 }
   }
 }
