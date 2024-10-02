@@ -20,3 +20,5 @@ exports.returnVote = (gem_id) => {
       return rows[0];
     });
 };
+
+//comment
