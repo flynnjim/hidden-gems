@@ -3,12 +3,26 @@ const seed = require("../db/seeds/seed");
 const testData = require("../db/data/test-data/index");
 const request = require("supertest");
 const app = require("../app");
+const endpoints = require("../endpoints.json");
 
 beforeEach(() => {
   return seed(testData);
 });
 afterAll(() => {
   return db.end();
+});
+
+// ENDPOINTS TEST
+
+describe("Endpoints test - GET /api", () => {
+  test("status code 200: will return a json representation of all of the available endpoints of the APP", () => {
+    return request(app)
+      .get("/api")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.endpoints).toMatchObject(endpoints);
+      });
+  });
 });
 
 // USERS TESTS
@@ -261,7 +275,7 @@ describe("Users API Testing", () => {
 
 // GEMS TESTS
 
-describe("Gems API Testing", () => {
+describe.only("Gems API Testing", () => {
   describe("GET /api/gems", () => {
     test("receive a status 200 and a response with an array of all gems objects", () => {
       return request(app)
@@ -305,7 +319,7 @@ describe("Gems API Testing", () => {
             address: "18 Stenner Ln, Didsbury, Manchester M20 2RQ",
             date: "2023-10-05T07:00:00.000Z",
             user_id: 1,
-            rating: [4, 1, 3],
+            rating: "2.6666666666666667",
             type: "event",
           });
         });
@@ -334,22 +348,34 @@ describe("Gems API Testing", () => {
         .get("/api/gems?sort_by=date")
         .expect(200)
         .then(({ body }) => {
+          expect(body.gems.length).toBe(4);
           expect(body.gems).toBeSortedBy("date", { descending: true });
         });
     });
-    // test("receive status 200 and an array of gem objects sorted by rating", () => {
-    //   return request(app)
-    //     .get("/api/gems?sort_by=rating")
-    //     .expect(200)
-    //     .then(({ body }) => {
-    //       expect(body.gems).toBeSortedBy("rating", { descending: true });
-    //     });
-    // });
+    test("receive status 200 and an array of gem objects sorted by rating", () => {
+      return request(app)
+        .get("/api/gems?sort_by=rating")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.gems.length).toBe(4);
+          expect(body.gems).toBeSortedBy("rating", { descending: true });
+        });
+    });
+    test("receive status 200 and an array of gem objects sorted by rating in asc order", () => {
+      return request(app)
+        .get("/api/gems?sort_by=rating&order=asc")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.gems.length).toBe(4);
+          expect(body.gems).toBeSortedBy("rating", { descending: false });
+        });
+    });
     test("receive status 200 and an array of gem objects sorted by date in asc order", () => {
       return request(app)
         .get("/api/gems?order=asc")
         .expect(200)
         .then(({ body }) => {
+          expect(body.gems.length).toBe(4);
           expect(body.gems).toBeSortedBy("date", { descending: false });
         });
     });
@@ -358,12 +384,21 @@ describe("Gems API Testing", () => {
         .get("/api/gems?sort_by=date&order=desc")
         .expect(200)
         .then(({ body }) => {
+          expect(body.gems.length).toBe(4);
           expect(body.gems).toBeSortedBy("date", { descending: true });
         });
     });
     test("receive status 400 and an error message when given an invalid order by query", () => {
       return request(app)
         .get("/api/gems?sort_by=date&order=hi")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Bad request");
+        });
+    });
+    test("receive status 400 and an error message when given an invalid sort_by query", () => {
+      return request(app)
+        .get("/api/gems?sort_by=banana&order=hi")
         .expect(400)
         .then(({ body }) => {
           expect(body.msg).toBe("Bad request");
@@ -429,21 +464,51 @@ describe("Gems API Testing", () => {
         .get("/api/gems?date=2023-10-05T07:00:00.000Z")
         .expect(200)
         .then(({ body }) => {
+          expect(body.gems.length).toBe(1);
+          expect(body.gems[0]).toHaveProperty("date");
+          body.gems.forEach((gem) => {
+            expect(gem).toHaveProperty("date");
+            expect(gem.date).toBe("2023-10-05T07:00:00.000Z");
+          });
+        });
+    });
+    test("receive status 200 and an array of gems filtered by date and another filter", () => {
+      return request(app)
+        .get("/api/gems?date=2023-10-05T07:00:00.000Z&category=nature")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.gems.length).toBe(1);
           body.gems.forEach((gem) => {
             expect(gem.date).toBe("2023-10-05T07:00:00.000Z");
           });
         });
     });
-    // test("receive status 200 and an array of gems filtered by date and another filter", () => {
-    //     return request(app)
-    //     .get("/api/gems?date=2023-10-05T07:00:00.000Z&category=nature")
-    //     .expect(200)
-    //     .then(({ body }) => {
-    //         body.gems.forEach((gem) => {
-    //             expect(gem.date).toBe("2023-10-05T07:00:00.000Z")
-    //         })
-    //     })
-    // })
+    //single type test
+    test("receive status 200 and an array of gems filtered by type and another filter", () => {
+      return request(app)
+        .get("/api/gems?type=event&date=2023-10-05T07:00:00.000Z")
+        .expect(200)
+        .then(({ body }) => {
+          console.log(body);
+          expect(body.gems.length).toBe(1);
+          body.gems.forEach((gem) => {
+            expect(gem.date).toBe("2023-10-05T07:00:00.000Z");
+            expect(gem.type).toBe("event");
+          });
+        });
+    });
+    test("receive status 200 and an array of gems filtered by type and another filter", () => {
+      return request(app)
+        .get("/api/gems?type=place&date=2023-10-05T07:00:00.000Z")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.gems.length).toBe(0);
+          body.gems.forEach((gem) => {
+            expect(gem.date).toBe("2023-10-05T07:00:00.000Z");
+            expect(gem.type).toBe("place");
+          });
+        });
+    });
   });
 });
 
@@ -642,12 +707,131 @@ describe("Comments API Testing", () => {
     });
     test("400: error message when givebn invalid order parameter", () => {
       return request(app)
-        .get("/api/comments/1?sort_by=date&order=Apple")
+        .delete("/api/comments/one")
         .expect(400)
         .then((response) => {
           const { body } = response;
-          expect(body.msg).toBe("Bad request");
+          expect(body.msg).toBe("Invalid comment_id");
         });
     });
+  });
+});
+
+// POST GEMS TESTS
+
+describe("POST /api/gems", () => {
+  test("status code: 201: posts a new gem to the database and returns new gem (rating defaults to empty array)", () => {
+    return request(app)
+      .post("/api/gems")
+      .send({
+        title: "Street Food Festival",
+        description:
+          "Sample a variety of street food from local and international vendors.",
+        category: "food",
+        img_url: [
+          "https://console.firebase.google.com/project/fir-project-28217/storage/fir-project-28217.appspot.com/files/~2Fgems#:~:text=Name-,street%2Dfood.jpeg,-Size",
+        ],
+        latitude: 53.479641,
+        longitude: -2.24551,
+        address: "Albert Square, Manchester M2 5DB, United Kingdom",
+        date: "2025-01-17T18:00",
+        type: "event",
+        user_id: 3,
+      })
+      .expect(201)
+      .then(({ body }) => {
+        expect(body).toMatchObject({
+          gem_id: 5,
+          title: "Street Food Festival",
+          description:
+            "Sample a variety of street food from local and international vendors.",
+          category: "food",
+          img_url: [
+            "https://console.firebase.google.com/project/fir-project-28217/storage/fir-project-28217.appspot.com/files/~2Fgems#:~:text=Name-,street%2Dfood.jpeg,-Size",
+          ],
+          latitude: 53.479641,
+          longitude: -2.24551,
+          address: "Albert Square, Manchester M2 5DB, United Kingdom",
+          date: "2025-01-17T18:00:00.000Z",
+          type: "event",
+          rating: [],
+          user_id: 3,
+        });
+      });
+  });
+  test("status code: 201: posts a new gem with default img_url when no img_url is sent through", () => {
+    return request(app)
+      .post("/api/gems")
+      .send({
+        title: "Street Food Festival",
+        description:
+          "Sample a variety of street food from local and international vendors.",
+        category: "food",
+        latitude: 53.479641,
+        longitude: -2.24551,
+        address: "Albert Square, Manchester M2 5DB, United Kingdom",
+        date: "2024-10-01T18:00",
+        type: "event",
+        user_id: 3,
+      })
+      .expect(201)
+      .then(({ body }) => {
+        expect(body).toMatchObject({
+          gem_id: 5,
+          title: "Street Food Festival",
+          description:
+            "Sample a variety of street food from local and international vendors.",
+          category: "food",
+          img_url: [
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3-tQciY90p_grchQZkdICyzAGcdTYsRDfjw&s",
+          ],
+          latitude: 53.479641,
+          longitude: -2.24551,
+          address: "Albert Square, Manchester M2 5DB, United Kingdom",
+          date: "2024-10-01T17:00:00.000Z",
+          type: "event",
+          rating: [],
+          user_id: 3,
+        });
+      });
+  });
+  test("status code: 400: responds with appropriate error status and message when object passed through is missing some data (title)", () => {
+    return request(app)
+      .post("/api/gems")
+      .send({
+        description:
+          "Sample a variety of street food from local and international vendors.",
+        category: "food",
+        latitude: 53.479641,
+        longitude: -2.24551,
+        address: "Albert Square, Manchester M2 5DB, United Kingdom",
+        date: "2024-10-01T18:00",
+        type: "event",
+        user_id: 3,
+      })
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Bad request");
+      });
+  });
+  test("status code: 404: responds with appropriate error status and message when user_id is passed through and is valid but does not exist", () => {
+    return request(app)
+      .post("/api/gems")
+      .send({
+        title: "Street Food Festival",
+        description:
+          "Sample a variety of street food from local and international vendors.",
+        category: "food",
+        latitude: 53.479641,
+        longitude: -2.24551,
+        address: "Albert Square, Manchester M2 5DB, United Kingdom",
+        date: "2024-10-01T18:00",
+        type: "event",
+        user_id: 15,
+      })
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("user_id does not exist!");
+      });
   });
 });

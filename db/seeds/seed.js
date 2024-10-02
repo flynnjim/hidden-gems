@@ -30,7 +30,7 @@ const seed = ({ gemsData, usersData, commentsData }) => {
             title VARCHAR NOT NULL,
             description VARCHAR NOT NULL,
             category VARCHAR NOT NULL,
-            img_url VARCHAR[] DEFAULT array['https://www.google.com/url?sa=i&url=https%3A%2F%2Ficonduck.com%2Ficons%2F21505%2Fgem&psig=AOvVaw15W1rHY7dazED2o5R0nMY0&ust=1727777239135000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCNiL7_a16ogDFQAAAAAdAAAAABAE']::varchar[],
+            img_url VARCHAR[] DEFAULT array['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3-tQciY90p_grchQZkdICyzAGcdTYsRDfjw&s']::varchar[],
             latitude FLOAT,
             longitude FLOAT,
             address VARCHAR NOT NULL,
@@ -82,7 +82,7 @@ const seed = ({ gemsData, usersData, commentsData }) => {
             date,
             rating,
             type,
-            user_id
+            user_id,
           }) => [
             title,
             description,
@@ -94,7 +94,7 @@ const seed = ({ gemsData, usersData, commentsData }) => {
             date,
             rating,
             type,
-            user_id
+            user_id,
           ]
         )
       );
@@ -108,7 +108,7 @@ const seed = ({ gemsData, usersData, commentsData }) => {
           username,
           body,
           gem_id,
-          date
+          date,
         ])
       );
       return db.query(insertCommentsDataStr);
