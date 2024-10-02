@@ -21,7 +21,7 @@ exports.selectAllGems = (
     return Promise.reject({ status: 400, msg: "Bad request" });
   }
 
-  let sqlString = `SELECT gems.title, gems.description, gems.category, gems.img_url, gems.latitude, gems.longitude, gems.address, gems.date, gems.user_id, gems.gem_id, gems.type, avg((select avg(a) from unnest(gems.rating) as a))AS rating FROM gems `;
+  let sqlString = `SELECT gems.title, gems.description, gems.category, gems.img_url, gems.latitude, gems.longitude, gems.address, gems.date, gems.user_id, gems.gem_id, gems.type, ROUND(avg((select avg(a) from unnest(gems.rating) as a)), 1)AS rating FROM gems `;
 
   const queryFilter = [];
 
@@ -76,7 +76,7 @@ exports.selectAllGems = (
 exports.selectGemsByID = (gem_id) => {
   return db
     .query(
-      "SELECT gems.title, gems.description, gems.category, gems.img_url, gems.latitude, gems.longitude, gems.address, gems.date, gems.user_id, gems.gem_id, gems.type, avg((select avg(a) from unnest(gems.rating) as a))AS rating FROM gems WHERE gems.gem_id = $1 GROUP BY gems.gem_id",
+      "SELECT gems.title, gems.description, gems.category, gems.img_url, gems.latitude, gems.longitude, gems.address, gems.date, gems.user_id, gems.gem_id, gems.type, ROUND(avg((select avg(a) from unnest(gems.rating) as a)), 1)AS rating FROM gems WHERE gems.gem_id = $1 GROUP BY gems.gem_id",
       [gem_id]
     )
     .then(({ rows }) => {

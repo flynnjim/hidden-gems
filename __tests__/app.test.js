@@ -192,7 +192,6 @@ describe("Users API Testing", () => {
         });
     });
   });
-
   describe("PATCH /api/users/:user_id - will update the user data and return updated user info", () => {
     test("status 200: updates user data given a user_id and entire new user object, and returns updated user object", () => {
       const updatedUser = {
@@ -305,6 +304,7 @@ describe("Gems API Testing", () => {
         .get("/api/gems/2")
         .expect(200)
         .then(({ body }) => {
+          console.log(body)
           expect(body.gem).toMatchObject({
             gem_id: 2,
             title: "Foraging Adventure",
@@ -319,7 +319,7 @@ describe("Gems API Testing", () => {
             address: "18 Stenner Ln, Didsbury, Manchester M20 2RQ",
             date: "2023-10-05T07:00:00.000Z",
             user_id: 1,
-            rating: "2.6666666666666667",
+            rating: "2.7",
             type: "event",
           });
         });
