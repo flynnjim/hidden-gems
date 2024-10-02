@@ -469,9 +469,10 @@ describe.only("Gems API Testing", () => {
           });
         });
     });
+    //single type test
     test("receive status 200 and an array of gems filtered by type and another filter", () => {
       return request(app)
-        .get("/api/gems?date=2023-10-05T07:00:00.000Z&type=event")
+        .get("/api/gems?type=event&date=2023-10-05T07:00:00.000Z")
         .expect(200)
         .then(({ body }) => {
           console.log(body);
@@ -484,7 +485,7 @@ describe.only("Gems API Testing", () => {
     });
     test("receive status 200 and an array of gems filtered by type and another filter", () => {
       return request(app)
-        .get("/api/gems?date=2023-10-05T07:00:00.000Z&type=place")
+        .get("/api/gems?type=place&date=2023-10-05T07:00:00.000Z")
         .expect(200)
         .then(({ body }) => {
           expect(body.gems.length).toBe(0);
@@ -494,7 +495,6 @@ describe.only("Gems API Testing", () => {
           });
         });
     });
-    ///single type
   });
 });
 

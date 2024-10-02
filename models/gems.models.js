@@ -11,9 +11,12 @@ exports.selectAllGems = (
 
   const validOrders = ["desc", "asc", "DESC", "ASC"];
 
-  const validFilters = ["date", "category", "type"];
-
   const validCategories = ["nature", "culture", "food"];
+
+  // add valid types
+
+  // add logic to ensure only acceptable date formats are inserted as the below code will not work as a 'catch-all'
+  // const validFilters = ["date", "category", "type"];
 
   if (!validSortByQueries.includes(sort_by)) {
     return Promise.reject({ status: 400, msg: "Bad request" });
