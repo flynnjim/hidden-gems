@@ -710,7 +710,7 @@ describe("Comments API Testing", () => {
         .expect(400)
         .then((response) => {
           const { body } = response;
-          expect(body.msg).toBe("Invalid comment_id");
+          expect(body.msg).toBe("Bad request");
         });
     });
   });
