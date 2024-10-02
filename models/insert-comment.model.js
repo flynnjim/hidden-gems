@@ -1,16 +1,16 @@
 const db = require("../db/connection");
 
 exports.insertComment = (body) => {
-  const dateFormat = typeof body.date === "number";
+  // const dateFormat = typeof body.date === "number";
   const usernameFormat = typeof body.username === "string";
   const bodyFormat = typeof body.body === "string";
   const gemIdFormat = typeof body.gem_id === "number";
 
-  if (dateFormat && usernameFormat && bodyFormat && gemIdFormat) {
+  if (usernameFormat && bodyFormat && gemIdFormat) {
     return db
       .query(
-        "INSERT INTO COMMENTS (username, body, gem_id, date) VALUES ($1, $2, $3, to_timestamp($4)) RETURNING *",
-        [body.username, body.body, body.gem_id, body.date]
+        "INSERT INTO COMMENTS (username, body, gem_id) VALUES ($1, $2, $3) RETURNING *",
+        [body.username, body.body, body.gem_id]
       )
       .then((commentNewData) => {
         return commentNewData.rows[0];
