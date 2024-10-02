@@ -275,7 +275,7 @@ describe("Users API Testing", () => {
 
 // GEMS TESTS
 
-describe.only("Gems API Testing", () => {
+describe("Gems API Testing", () => {
   describe("GET /api/gems", () => {
     test("receive a status 200 and a response with an array of all gems objects", () => {
       return request(app)
@@ -489,7 +489,6 @@ describe.only("Gems API Testing", () => {
         .get("/api/gems?type=event&date=2023-10-05T07:00:00.000Z")
         .expect(200)
         .then(({ body }) => {
-          console.log(body);
           expect(body.gems.length).toBe(1);
           body.gems.forEach((gem) => {
             expect(gem.date).toBe("2023-10-05T07:00:00.000Z");
@@ -832,6 +831,55 @@ describe("POST /api/gems", () => {
       .expect(404)
       .then(({ body }) => {
         expect(body.msg).toBe("user_id does not exist!");
+      });
+  });
+});
+
+// PATCH GEMS TESTS
+
+describe("PATCH /api/gems/:gem_id", () => {
+  test("status 200: updates a gem in the database by gem_id when given a new rating", () => {
+    return request(app)
+      .patch("/api/gems/1")
+      .send({
+        new_rating: 5,
+      })
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.rating).toBe("3.0");
+      });
+  });
+  test("status: 404: receive appropriate status and error message when given a valid but non-existent gem_id", () => {
+    return request(app)
+      .patch("/api/gems/999")
+      .send({
+        new_rating: 5,
+      })
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Not found");
+      });
+  });
+  test("status: 400: receive appropriate status and error message when given an invalid gem_id", () => {
+    return request(app)
+      .patch("/api/gems/not-an-id")
+      .send({
+        new_rating: 5,
+      })
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Bad request");
+      });
+  });
+  test("status 400: sends an appropriate status and error message when given a non-valid body", () => {
+    return request(app)
+      .patch("/api/gems/1")
+      .send({
+        new_rating: "not-valid",
+      })
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Bad request");
       });
   });
 });
