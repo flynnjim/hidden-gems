@@ -3,12 +3,26 @@ const seed = require("../db/seeds/seed");
 const testData = require("../db/data/test-data/index");
 const request = require("supertest");
 const app = require("../app");
+const endpoints = require("../endpoints.json");
 
 beforeEach(() => {
   return seed(testData);
 });
 afterAll(() => {
   return db.end();
+});
+
+// ENDPOINTS TEST
+
+describe("Endpoints test - GET /api", () => {
+  test("status code 200: will return a json representation of all of the available endpoints of the APP", () => {
+    return request(app)
+      .get("/api")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.endpoints).toMatchObject(endpoints);
+      });
+  });
 });
 
 // USERS TESTS
@@ -624,5 +638,124 @@ describe("Comments API Testing", () => {
           expect(body.msg).toBe("Invalid comment_id");
         });
     });
+  });
+});
+
+// POST GEMS TESTS
+
+describe("POST /api/gems", () => {
+  test("status code: 201: posts a new gem to the database and returns new gem (rating defaults to empty array)", () => {
+    return request(app)
+      .post("/api/gems")
+      .send({
+        title: "Street Food Festival",
+        description:
+          "Sample a variety of street food from local and international vendors.",
+        category: "food",
+        img_url: [
+          "https://console.firebase.google.com/project/fir-project-28217/storage/fir-project-28217.appspot.com/files/~2Fgems#:~:text=Name-,street%2Dfood.jpeg,-Size",
+        ],
+        latitude: 53.479641,
+        longitude: -2.24551,
+        address: "Albert Square, Manchester M2 5DB, United Kingdom",
+        date: "2025-01-17T18:00",
+        type: "event",
+        user_id: 3,
+      })
+      .expect(201)
+      .then(({ body }) => {
+        expect(body).toMatchObject({
+          gem_id: 5,
+          title: "Street Food Festival",
+          description:
+            "Sample a variety of street food from local and international vendors.",
+          category: "food",
+          img_url: [
+            "https://console.firebase.google.com/project/fir-project-28217/storage/fir-project-28217.appspot.com/files/~2Fgems#:~:text=Name-,street%2Dfood.jpeg,-Size",
+          ],
+          latitude: 53.479641,
+          longitude: -2.24551,
+          address: "Albert Square, Manchester M2 5DB, United Kingdom",
+          date: "2025-01-17T18:00:00.000Z",
+          type: "event",
+          rating: [],
+          user_id: 3,
+        });
+      });
+  });
+  test("status code: 201: posts a new gem with default img_url when no img_url is sent through", () => {
+    return request(app)
+      .post("/api/gems")
+      .send({
+        title: "Street Food Festival",
+        description:
+          "Sample a variety of street food from local and international vendors.",
+        category: "food",
+        latitude: 53.479641,
+        longitude: -2.24551,
+        address: "Albert Square, Manchester M2 5DB, United Kingdom",
+        date: "2024-10-01T18:00",
+        type: "event",
+        user_id: 3,
+      })
+      .expect(201)
+      .then(({ body }) => {
+        expect(body).toMatchObject({
+          gem_id: 5,
+          title: "Street Food Festival",
+          description:
+            "Sample a variety of street food from local and international vendors.",
+          category: "food",
+          img_url: [
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3-tQciY90p_grchQZkdICyzAGcdTYsRDfjw&s",
+          ],
+          latitude: 53.479641,
+          longitude: -2.24551,
+          address: "Albert Square, Manchester M2 5DB, United Kingdom",
+          date: "2024-10-01T17:00:00.000Z",
+          type: "event",
+          rating: [],
+          user_id: 3,
+        });
+      });
+  });
+  test("status code: 400: responds with appropriate error status and message when object passed through is missing some data (title)", () => {
+    return request(app)
+      .post("/api/gems")
+      .send({
+        description:
+          "Sample a variety of street food from local and international vendors.",
+        category: "food",
+        latitude: 53.479641,
+        longitude: -2.24551,
+        address: "Albert Square, Manchester M2 5DB, United Kingdom",
+        date: "2024-10-01T18:00",
+        type: "event",
+        user_id: 3,
+      })
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Bad request");
+      });
+  });
+  test("status code: 404: responds with appropriate error status and message when user_id is passed through and is valid but does not exist", () => {
+    return request(app)
+      .post("/api/gems")
+      .send({
+        title: "Street Food Festival",
+        description:
+          "Sample a variety of street food from local and international vendors.",
+        category: "food",
+        latitude: 53.479641,
+        longitude: -2.24551,
+        address: "Albert Square, Manchester M2 5DB, United Kingdom",
+        date: "2024-10-01T18:00",
+        type: "event",
+        user_id: 15,
+      })
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("user_id does not exist!");
+      });
   });
 });
