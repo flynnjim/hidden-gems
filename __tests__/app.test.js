@@ -557,7 +557,7 @@ describe("Comments API Testing", () => {
         .expect(400)
         .then((response) => {
           const { body } = response;
-          expect(body).toEqual("Bad request invalid gem_id");
+          expect(body.msg).toEqual("Bad request");
         });
     });
     test("returns 404 response and err message when gem_id not found", () => {
@@ -566,7 +566,7 @@ describe("Comments API Testing", () => {
         .expect(404)
         .then((response) => {
           const { body } = response;
-          expect(body).toEqual("Bad request comment not found");
+          expect(body.msg).toEqual("Bad request");
         });
     });
   });
@@ -630,6 +630,82 @@ describe("Comments API Testing", () => {
         });
     });
     test("returns 400 status response bad request when invalid comment_id passed", () => {
+      return request(app)
+        .delete("/api/comments/one")
+        .expect(400)
+        .then((response) => {
+          const { body } = response;
+          expect(body.msg).toBe("Bad request");
+        });
+    });
+  });
+  describe("GET /api/comment sorting-queries", () => {
+    test("200: array of comments sorted by date ascending", () => {
+      return request(app)
+        .get("/api/comments?sort_by=date")
+        .expect(200)
+        .then((response) => {
+          const { body } = response;
+          expect(body).toBeSortedBy("date", { ascending: true });
+        });
+    });
+    test("200: array of comments sorted by date decending", () => {
+      return request(app)
+        .get("/api/comments?sort_by=date&order=desc")
+        .expect(200)
+        .then((response) => {
+          const { body } = response;
+          expect(body).toBeSortedBy("date", { descending: true });
+        });
+    });
+    test("400: error message when given invalid sort_by parameter", () => {
+      return request(app)
+        .get("/api/comments?sort_by=banana")
+        .expect(400)
+        .then((response) => {
+          const { body } = response;
+          expect(body.msg).toBe("Bad request");
+        });
+    });
+    test("400: error message when givebn invalid order parameter", () => {
+      return request(app)
+        .get("/api/comments?sort_by=date&order=Apple")
+        .expect(400)
+        .then((response) => {
+          const { body } = response;
+          expect(body.msg).toBe("Bad request");
+        });
+    });
+  });
+  describe("GET /api/comments/:gem_id sorting-queries", () => {
+    test("200: array of comments sorted by date ascending", () => {
+      return request(app)
+        .get("/api/comments/1?sort_by=date")
+        .expect(200)
+        .then((response) => {
+          const { body } = response;
+          expect(body).toBeSortedBy("date", { ascending: true });
+        });
+    });
+    test("200: array of comments sorted by date decending", () => {
+      return request(app)
+        .get("/api/comments/1?sort_by=date&order=desc")
+        .expect(200)
+        .then((response) => {
+          const { body } = response;
+          expect(body).toBeSortedBy("date", { descending: true });
+        });
+    });
+    test("400: error message when given invalid sort_by parameter", () => {
+      return request(app)
+        .get("/api/comments/1?sort_by=banana")
+        .expect(400)
+        .then((response) => {
+          const { body } = response;
+          expect(body.msg).toBe("Bad request");
+        });
+    });
+    test("400: error message when givebn invalid order parameter", () => {
       return request(app)
         .delete("/api/comments/one")
         .expect(400)
