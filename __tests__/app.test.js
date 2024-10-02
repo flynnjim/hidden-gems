@@ -612,4 +612,42 @@ describe("Comments API Testing", () => {
         });
     });
   });
+  describe("GET /api/comments/:gem_id sorting-queries", () => {
+    test("200: array of comments sorted by date ascending", () => {
+      return request(app)
+        .get("/api/comments/1?sort_by=date")
+        .expect(200)
+        .then((response) => {
+          const { body } = response;
+          expect(body).toBeSortedBy("date", { ascending: true });
+        });
+    });
+    test("200: array of comments sorted by date decending", () => {
+      return request(app)
+        .get("/api/comments/1?sort_by=date&order=desc")
+        .expect(200)
+        .then((response) => {
+          const { body } = response;
+          expect(body).toBeSortedBy("date", { descending: true });
+        });
+    });
+    test("400: error message when given invalid sort_by parameter", () => {
+      return request(app)
+        .get("/api/comments/1?sort_by=banana")
+        .expect(400)
+        .then((response) => {
+          const { body } = response;
+          expect(body.msg).toBe("Bad request");
+        });
+    });
+    test("400: error message when givebn invalid order parameter", () => {
+      return request(app)
+        .get("/api/comments/1?sort_by=date&order=Apple")
+        .expect(400)
+        .then((response) => {
+          const { body } = response;
+          expect(body.msg).toBe("Bad request");
+        });
+    });
+  });
 });
