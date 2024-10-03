@@ -7,6 +7,6 @@ exports.postComment = (req, res, next) => {
       res.status(201).json(commentNewData);
     })
     .catch((err) => {
-      next(err)
+      next(err);
     });
 };
