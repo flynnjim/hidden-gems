@@ -2,7 +2,7 @@
   "name": "hidden-gems",
   "version": "1.0.0",
   "description": "Hello",
-  "main": "listen.js",
+  "main": "./listen.js",
   "scripts": {
     "setup-dbs": "psql -f ./db/setup.sql",
     "seed": "node ./db/seeds/run-seed.js",
