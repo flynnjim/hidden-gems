@@ -1,26 +1,28 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const { getEndpoints } = require("./controllers/endpoints-controller");
-const { getGems, getGemByID } = require("./controllers/gems.controllers");
-const { postGem } = require("./controllers/post-gems-controller");
-const { patchGem } = require("./controllers/patch-gems-controller");
+
 const {
+  getAllComments,
+  getGemComments,
+  postComment,
+  deleteComment,
   getAllUsers,
   getUserById,
   postUser,
   patchUser,
-} = require("./controllers/users-controller");
+  getEndpoints,
+  getGems,
+  getGemByID,
+  postGem,
+  patchGem
+} = require("./controllers/index.controllers");
+
 const {
   handlePSQLErrors,
   handleCustomErrors,
   handleServerErrors,
 } = require("./errors/errors");
-
-const { getAllComments } = require("./controllers/get-all-comments.controller");
-const { getGemComments } = require("./controllers/get-gem-comments.controller");
-const { postComment } = require("./controllers/post-new-comment.controller");
-const { deleteComment } = require("./controllers/delete-comment.controller");
 
 app.use(express.json());
 app.use(cors());
