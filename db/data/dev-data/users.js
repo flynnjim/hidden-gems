@@ -5,7 +5,7 @@ module.exports = [
     email: "johndoe@example.com",
     password: "P@ssw0rd123!",
     avatar_url:
-      "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/avatars%2FJohn%20Doe.png?alt=media&token=c19e3cb9-6890-498d-b0be-4ec63e24ed11",
+      "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/avatars%2F1.png?alt=media&token=d9b3b51a-a50e-45ee-b460-9872672e1f2a",
     user_type: "regular",
   },
   {
@@ -14,7 +14,7 @@ module.exports = [
     email: "janesmith@example.com",
     password: "S3cur3P@ss!",
     avatar_url:
-      "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/avatars%2FJane%20Smith.png?alt=media&token=395e8115-f077-40a8-9731-e2cb44641db9",
+      "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/avatars%2F9.png?alt=media&token=ac6e1c3a-2a51-48d2-8ed0-240e87205a77",
     user_type: "artist",
   },
   {
@@ -23,7 +23,7 @@ module.exports = [
     email: "mikebrown@example.com",
     password: "Browny2024#",
     avatar_url:
-      "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/avatars%2FMichael%20Brown.png?alt=media&token=f6821d60-6fd6-4f86-9f81-f7c5ce480898",
+      "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/avatars%2F2.png?alt=media&token=07e46198-00b7-41ba-909e-221f4b7805ed",
     user_type: "regular",
   },
   {
@@ -32,7 +32,7 @@ module.exports = [
     email: "emilydavis@example.com",
     password: "Eml!DavS9987",
     avatar_url:
-      "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/avatars%2FEmily%20Davis.png?alt=media&token=6ebd67b9-ac94-4323-94c5-5c9390f886ea",
+      "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/avatars%2F5.png?alt=media&token=a22aefb9-a1b0-489f-bc13-ab9ac01d2b64",
     user_type: "artist",
   },
   {
@@ -41,7 +41,7 @@ module.exports = [
     email: "davidwilson@example.com",
     password: "Wilz0n88!",
     avatar_url:
-      "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/avatars%2FDavid%20Wilson.png?alt=media&token=e2f6cfbb-422e-4e7b-92c2-391a54b13e3a",
+      "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/avatars%2F2.png?alt=media&token=07e46198-00b7-41ba-909e-221f4b7805ed",
     user_type: "regular",
   },
   {
@@ -50,7 +50,7 @@ module.exports = [
     email: "lauraj@example.com",
     password: "L@ur4JPass",
     avatar_url:
-      "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/avatars%2FLaura%20Johnson.png?alt=media&token=28210b21-83d1-4877-b8a7-ce56073c02c3",
+      "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/avatars%2F4.png?alt=media&token=43c06c01-7f04-4c2b-ae0b-f78f6af9d8bf",
     user_type: "artist",
   },
   {
@@ -59,7 +59,7 @@ module.exports = [
     email: "chrism@example.com",
     password: "Chr!sM@rt9",
     avatar_url:
-      "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/avatars%2FChris%20Martinez.png?alt=media&token=9dc51f76-7c65-4039-b456-0345e471afa6",
+      "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/avatars%2F2.png?alt=media&token=07e46198-00b7-41ba-909e-221f4b7805ed",
     user_type: "regular",
   },
   {
@@ -68,7 +68,7 @@ module.exports = [
     email: "olivialee@example.com",
     password: "Olivi@P@ss22",
     avatar_url:
-      "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/avatars%2FOlivia%20Lee.png?alt=media&token=eac9c4fd-7312-4bf7-95d7-3e616b409cca",
+      "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/avatars%2F7.png?alt=media&token=b57b4e80-b54d-4ae4-80ab-b1eed31eead8",
     user_type: "regular",
   },
   {
@@ -77,7 +77,7 @@ module.exports = [
     email: "jamesclark@example.com",
     password: "J@m3sClark#890",
     avatar_url:
-      "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/avatars%2FJames%20Clark.png?alt=media&token=63e44af6-fab8-45b3-b8c9-e27661c1fe79",
+      "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/avatars%2F3.png?alt=media&token=dfabd328-6685-408f-beba-708f0f8c41ad",
     user_type: "regular",
   },
   {
@@ -86,7 +86,7 @@ module.exports = [
     email: "sophiah@example.com",
     password: "Soph!aHar7",
     avatar_url:
-      "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/avatars%2FSophia%20Harris.png?alt=media&token=1c747a82-5df9-471c-9a44-3554e4476b44",
+      "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/avatars%2F9.png?alt=media&token=ac6e1c3a-2a51-48d2-8ed0-240e87205a77",
     user_type: "regular",
   },
   {
@@ -95,7 +95,7 @@ module.exports = [
     email: "matthew.walker@example.com",
     password: "M@ttWalk345!",
     avatar_url:
-      "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/avatars%2FMathew%20Walker.png?alt=media&token=3c8958ed-3843-479f-884c-fd39bb135aef",
+      "https://firebasestorage.googleapis.com/v0/b/fir-project-28217.appspot.com/o/avatars%2F3.png?alt=media&token=dfabd328-6685-408f-beba-708f0f8c41ad",
     user_type: "regular",
   },
 ];
