@@ -76,7 +76,7 @@ module.exports = [
     address: "The Ivy, Hardman St, Manchester M3 3EB, United Kingdom",
     date: 1732300200000,
     type: "event",
-    rating: [1],
+    rating: [1, 5],
     user_id: 5,
   },
   {
