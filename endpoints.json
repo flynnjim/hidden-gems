@@ -148,7 +148,7 @@
     ]
   },
   "GET /api/gems/:gem_id": {
-    "description": "serves a user object by its id",
+    "description": "serves a gem object by its gem_id",
     "queries": [],
     "exampleResponse": {
       "title": "Foraging Adventure",
